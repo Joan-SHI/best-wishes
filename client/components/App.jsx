@@ -8,14 +8,18 @@ import Main from './Main'
 
 const App = () => (
   <div className='app'>
-    {/* <Header /> */}
+    <Header />
     <ErrorMessage />
     <LoadingIndicator />
-    <Header />
     <Main />
-    <Footer />
+        <Footer />
   </div>
 )
 
+// const App = () => (
+//   <div className='app'>
+//   <p>Hello Joan</p>
+//   </div>
+// )
 
 export default App

@@ -28903,19 +28903,23 @@ function messagesReducer() {
   var action = arguments[1];
 
   console.log("messagesReduceder action ", action);
-  switch (action.type) {
-    case _actions.RECEIVE_MESSAGES:
-      console.log("Messages received: state to be action.messages", action.messages);
-      return action.messages; // all messages put into state
-    case _actions.RECEIVE_MESSAGE:
-      console.log("Message received: TODO update message and return all messages", action.message);
-      return state; // need to replace the specific message (if existing) or insert if new
-    case _actions.SET_MESSAGE_RESULT:
-      console.log("Set message result received: TODO update existing or insert new, and return all messages", action.result);
-      return state; // need to replace the specific message (if existing) or insert if new
+  if (action) {
+    switch (action.type) {
+      case _actions.RECEIVE_MESSAGES:
+        console.log("Messages received: state to be action.messages", action.messages);
+        return action.messages; // all messages put into state
+      case _actions.RECEIVE_MESSAGE:
+        console.log("Message received: TODO update message and return all messages", action.message);
+        return state; // need to replace the specific message (if existing) or insert if new
+      case _actions.SET_MESSAGE_RESULT:
+        console.log("Set message result received: TODO update existing or insert new, and return all messages", action.result);
+        return state; // need to replace the specific message (if existing) or insert if new
 
-    default:
-      return state;
+      default:
+        return state;
+    }
+  } else {
+    return state;
   }
 }
 
@@ -28939,22 +28943,25 @@ function currentMessageReducer() {
     var action = arguments[1];
 
     console.log("currentMessageReduceder action ", action);
-    switch (action.type) {
-        case _actions.VIEW_MESSAGE:
-            console.log("Viewing message: state to be action.message", action.message);
-            return action.message; // all messages put into state
-        case _actions.EDIT_MESSAGE:
-            console.log("Edit Message: TODO set current message to be in edit mode ", action.message);
-            return state; // need to replace the specific message (if existing) or insert if new
-        case CLOSE_MESSAGE:
-            console.log("Close Message view: TODO set current message to be null ", action.message);
-            return {}; // or should this be null??
-        case ARCHIVE_MESSAGE:
-            // or should this be a thunk?  I think so
-            console.log("Archive Message: TODO set current message to be archived and dispatch to SET MESSAGE?? ", action.message);
-            return state; // need to replace the specific message (if existing) or insert if new
-        default:
-            return state;
+    if (action) {
+        switch (action.type) {
+            case _actions.VIEW_MESSAGE:
+                console.log("Viewing message: state to be action.message", action.message);
+                return action.message; // all messages put into state
+            case _actions.EDIT_MESSAGE:
+                console.log("Edit Message: TODO set current message to be in edit mode ", action.message);
+                return state; // need to replace the specific message (if existing) or insert if new
+            // case CLOSE_MESSAGE:
+            //     console.log("Close Message view: TODO set current message to be null ", action.message)
+            //     return {} // or should this be null??
+            // case ARCHIVE_MESSAGE:  // or should this be a thunk?  I think so
+            //     console.log("Archive Message: TODO set current message to be archived and dispatch to SET MESSAGE?? ", action.message)
+            //     return state // need to replace the specific message (if existing) or insert if new
+            default:
+                return state;
+        }
+    } else {
+        return state;
     }
 }
 
@@ -29047,13 +29054,19 @@ var App = function App() {
   return _react2.default.createElement(
     'div',
     { className: 'app' },
+    _react2.default.createElement(_Header2.default, null),
     _react2.default.createElement(_ErrorMessage2.default, null),
     _react2.default.createElement(_LoadingIndicator2.default, null),
-    _react2.default.createElement(_Header2.default, null),
     _react2.default.createElement(_Main2.default, null),
     _react2.default.createElement(_Footer2.default, null)
   );
 };
+
+// const App = () => (
+//   <div className='app'>
+//   <p>Hello Joan</p>
+//   </div>
+// )
 
 exports.default = App;
 
@@ -29219,8 +29232,7 @@ var Main = function Main(props) {
     _react2.default.Fragment,
     null,
     _react2.default.createElement(_MessageBoard2.default, null),
-    _react2.default.createElement(_Message2.default, null),
-    '  '
+    true && _react2.default.createElement(_Message2.default, null)
   );
 };
 
@@ -29250,12 +29262,21 @@ var _reactRedux = __webpack_require__(3);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MessageBoard = function MessageBoard(props) {
+  var messages = props.messages || [];
+  messages.push({ id: 0, to: "mrs claus" }, { id: 1, to: "Joan", message: "thanks for coffee, lunch" });
+
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
-    'const messages = props.messages messages.map((message, i) => ',
-    _react2.default.createElement(_MiniMessage2.default, { key: i, index: i, message: message }),
-    ')'
+    _react2.default.createElement(
+      'h3',
+      null,
+      'Message Board'
+    ),
+    messages.map(function (message, i) {
+      console.log("Message board map loop: i, message: ", i, message);
+      return _react2.default.createElement(_MiniMessage2.default, { key: i, index: i, message: message });
+    })
   );
 };
 
@@ -29285,31 +29306,27 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MiniMessage = function MiniMessage(props) {
+  var message = props.message;
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
     _react2.default.createElement(
-      'div',
+      'h4',
       null,
-      props.title
+      'I\'m a mini message'
     ),
     _react2.default.createElement(
       'p',
       null,
-      'ID: ',
-      props.id
+      ' ID: ',
+      message.id
     ),
     _react2.default.createElement(
       'p',
       null,
-      'To: TODO '
-    ),
-    _react2.default.createElement(
-      'p',
-      null,
-      'MESSAGE: ',
-      props.body,
-      ' '
+      'To: ',
+      message.to,
+      '  '
     )
   );
 };
@@ -29354,16 +29371,16 @@ var Message = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
 
     _this.state = {
-      currentMessage: {
-        id: 0,
-        to: "Santa",
-        from: "mini-me",
-        message: "You should never see this message",
-        color: "#FFFFFF",
-        like_count: 999,
-        archived: false,
-        created_at: null
-      },
+      // currentMessage: {
+      //   id: 0,
+      //   to: "Santa",
+      //   from: "mini-me",
+      //   message: "You should never see this message",
+      //   color: "#FFFFFF",
+      //   like_count: 999,
+      //   archived: false,
+      //   created_at: null
+      // },
       editMode: false
       // bind any functions
     };return _this;
@@ -29373,7 +29390,7 @@ var Message = function (_React$Component) {
     key: 'render',
     value: function render() {
       // depending on state, return the standard view (with like and delete and edit button) or edit/create view
-      message = this.props.currentMessage || this.state.currentMessage;
+      var message = this.props.currentMessage || this.state.currentMessage;
       if (this.state.editMode) {
         return _react2.default.createElement(
           _react2.default.Fragment,
@@ -29389,29 +29406,28 @@ var Message = function (_React$Component) {
           _react2.default.Fragment,
           null,
           _react2.default.createElement(
-            'div',
+            'h3',
             null,
-            message.title
+            'I\'m a message view'
           ),
           _react2.default.createElement(
-            'p',
+            'h3',
             null,
             'To: ',
-            message.to,
-            ' '
+            message && message.to || "No to"
           ),
           _react2.default.createElement(
             'p',
             null,
             'MESSAGE: ',
-            message.message,
+            message && message.message || "no message",
             ' '
           ),
           _react2.default.createElement(
             'p',
             null,
             'Likes: ',
-            message.like_count,
+            message && message.like_count || "no like count",
             ' '
           ),
           _react2.default.createElement(
