@@ -1,5 +1,5 @@
 html {
-  background-color: #D8C8A8;
+  background-color: #d8c8a8;
   background-image: url("assets/background.png");
   font-family: "Noto Sans SC", sans-serif;
 }
@@ -8,49 +8,48 @@ html {
 }
 
 body {
-  margin: 40px;
+  margin: 80px;
 }
 
 .board {
   display: grid;
-  grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(7, 100px);
   grid-gap: 10px;
-  background-color: #AD6D07;
+  background-color: #ad6d07;
   border-color: #590005;
   border-style: solid;
   border-width: 10px;
   border-radius: 30px;
-  grid-template-areas:
-    "header  header  header"
-    "footer  footer  footer";
 }
 
 .header,
 .footer {
-  background-color: #B8B56A;
+  background-color: #b8b56a;
 }
 
 .header {
   text-align: center;
   border-radius: 10px;
-  grid-column: 1/12;
+  grid-column: 1/13;
   grid-row: 1;
 }
 
 .footer {
   text-align: center;
   border-radius: 10px;
-  grid-column: 1/12;
+  grid-column: 1/13;
   grid-row: 12;
 }
 
 .column1 {
-  grid-column: 1/6;
-  width: 600px;
+  grid-column: 1/4;
+  width: 700px;
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(5, 100px);
+  grid-template-columns: repeat(5, 175px);
+  grid-template-rows: repeat(4, 150px);
+  padding-left: 20px;
 }
 
 .miniMessage {
@@ -63,17 +62,39 @@ body {
 
 .column2 {
   display: grid;
+  grid-column: 9/12;
+  padding-left: 20px;
 }
 
 .createMessage {
-  border-color:#000000;
-  border-radius: 2px;
-  border-width: 5px;
-  grid-column: 9/12;
-  grid-row: 1/6;
+  display: grid;
+  background-color: #eba016;
+  border-radius: 5px;
+  grid-column: 3/8;
+  border: 2px solid #590005;
+  padding: 5px;
 }
 
 .readMessage {
-  grid-column: 6/12;
-  grid-row: 5/12;
+  display: grid;
+  background-color: #eba016;
+  border-radius: 5px;
+  grid-column: 3/8;
+  grid-row: 5;
+  border: 2px solid #590005;
+  padding: 5px;
+}
+
+.toInput {
+  border-radius: 5px;
+}
+
+.fromInput {
+  border-radius: 5px;
+}
+
+.bodyInput {
+  width: 300px;
+  height: 100px;
+  border-radius: 5px;
 }

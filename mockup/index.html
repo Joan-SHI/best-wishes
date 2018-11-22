@@ -10,10 +10,8 @@
 </head>
 <body>
 
-<div id="App" class="wrapper">
+<div id="App">
     <div id="background">
-        <div id="leftHandMargin"></div>
-        <div id="rightHandMargin"></div>
         <div id="mainBoard" class="board">
             <div class="header">
                 <h1>Header</h1>
@@ -121,7 +119,7 @@
                 </div>
             </div>
             <div class="column2">
-            <div id="createMessage">
+            <div class="createMessage">
                 <form>
                     <h4>Create message</h4>
                         <p>
@@ -133,23 +131,27 @@
                         <p>
                             Body: <input>
                         </p>
-                    Select a colour:
-                    <input type="color" value="#FFFFFF">
-                    <button>Submit</button>
-                    <button>Cancel</button>
+                        <p>
+                            Colour:
+                            <input type="color" value="#FFFFFF">
+                        </p>
+                        </p class="buttons">
+                            <button>Cancel</button>
+                            <button>Submit</button>
+                        </p>
                 </form>
             </div>
-            <div id="readMessage">
+            <div class="readMessage">
                 <h4>Read message</h4>
                 <p>
-                    To: <input>
+                    To: <input class="toInput">
                 </p>
                 <p>
-                    From: <input>
+                    From: <input class="fromInput">
                 </p>
                 <p>
-                    Body: <input>
-                </p>
+                    Body: <input class="bodyInput">
+                </p class="buttons">
                     &#x1F49F; &#x270D; &#x274C;
                 </p>
             </div>
