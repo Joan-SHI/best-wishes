@@ -1,15 +1,78 @@
 html {
-    background-color: brown
+  background-color: rgba(252, 244, 130, 0.75);
+  font-family: "Noto Sans SC", sans-serif;
 }
 
 @media only screen and (max-width: 600px) {
-    body {
-        background-color: lightblue;
-    }
+}
+
+body {
+  margin: 40px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+  grid-gap: 10px;
+  background-color: rgb(187, 122, 2);
+  border-color: black;
+  border-style: solid;
+  border-width: 10px;
+  border-radius: 30px;
+  grid-template-areas:
+    "header  header  header"
+    "footer  footer  footer";
+}
+
+.header,
+.footer {
+  background-color: #ffedb1;
+}
+
+.header {
+  text-align: center;
+  border-radius: 10px;
+  grid-column: 1/12;
+  grid-row: 1;
+}
+
+.footer {
+  text-align: center;
+  border-radius: 10px;
+  grid-column: 1/12;
+  grid-row: 12;
+}
+
+.column1 {
+  grid-column: 1/6;
+  width: 600px;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(5, 100px);
 }
 
 .miniMessage {
-   color: white;
-   margin: 20px;
-   border-radius: 2px;
+  background-color: #ffcd2a;
+  margin: 5px;
+  border-radius: 2px;
+  padding: 5px;
+  font-size: 80%;
+}
+
+.column2 {
+  display: grid;
+}
+
+.createMessage {
+  border-color: black;
+  border-radius: 2px;
+  border-width: 5px;
+  grid-column: 9/12;
+  grid-row: 1/6;
+}
+
+.readMessage {
+  grid-column: 6/12;
+  grid-row: 5/12;
 }
