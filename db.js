@@ -1,36 +1,36 @@
 const environment = process.env.NODE_ENV || 'development'
-const config = require('./knexfile')[environment]
+const config = require('../knexfile')[environment]
 const connection = require('knex')(config)
 
 module.exports = {
-  getUsers,
-  getUser,
-  saveUser,
-  deleteUser,
-  updateUser
+  getMessages,
+  getMessage,
+  saveMessage,
+  deletMessage,
+  updateMessage
 }
 
-function getUsers (testDb) {
+function getMessages(testDb) {
   const db = testDb || connection
-  return db('users').select()
+  return db('messages').select()
 }
 
-function getUser (id, testDb) {
+function getMessage(id, testDb) {
   const db = testDb || connection
-  return db('users').where('id', id).first()
+  return db('messages').where('id', id).first()
 }
 
-function saveUser(user, testDb) {
+function saveMessage(message, testDb) {
   const db = testDb || connection
-  return db('users').insert(user)
+  return db('messages').insert(message)
 }
 
-function deleteUser(id, testDb) {
+function deletMessage(id, testDb) {
   const db = testDb || connection
-  return db('users').where('id', id).del()
+  return db('messages').where('id', id).del()
 }
 
-function updateUser(id, user, testDb) {
+function updateMessage(id, message, testDb) {
   const db = testDb || connection
-  return db('users').where('id', id).update(user)
+  return db('messages').where('id', id).update(message)
 }
