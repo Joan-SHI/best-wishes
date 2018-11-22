@@ -1,6 +1,6 @@
 import { SHOW_ERROR, RECEIVE_POSTS } from '../actions'
 
-function errorMessage(state = '', action) {
+function errorMessageReducer(state = '', action) {
   switch (action.type) {
     case SHOW_ERROR:
       return action.errorMessage
@@ -12,4 +12,4 @@ function errorMessage(state = '', action) {
   }
 }
 
-export default errorMessage
+export default errorMessageReducer

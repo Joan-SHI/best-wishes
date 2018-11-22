@@ -270,178 +270,6 @@ if (process.env.NODE_ENV === 'production') {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(40);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.showError = exports.setMessageResult = exports.setMessage = exports.editMessage = exports.viewMessage = exports.receiveMessage = exports.requestMessage = exports.receiveMessages = exports.requestMessages = exports.SET_MESSAGE_RESULT = exports.SET_MESSAGE = exports.EDIT_MESSAGE = exports.VIEW_MESSAGE = exports.RECEIVE_MESSAGE = exports.REQUEST_MESSAGE = exports.RECEIVE_MESSAGES = exports.REQUEST_MESSAGES = exports.SHOW_ERROR = undefined;
-exports.fetchMessages = fetchMessages;
-exports.fetchMessage = fetchMessage;
-
-var _superagent = __webpack_require__(55);
-
-var _superagent2 = _interopRequireDefault(_superagent);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SHOW_ERROR = exports.SHOW_ERROR = 'SHOW_ERROR';
-// get all messages
-var REQUEST_MESSAGES = exports.REQUEST_MESSAGES = 'REQUEST_MESSAGES';
-var RECEIVE_MESSAGES = exports.RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
-
-// get single message
-var REQUEST_MESSAGE = exports.REQUEST_MESSAGE = 'REQUEST_MESSAGE';
-var RECEIVE_MESSAGE = exports.RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
-
-// view a message (set current message)
-var VIEW_MESSAGE = exports.VIEW_MESSAGE = 'VIEW_MESSAGE';
-
-// edit a message (set current message to be in edit mode)
-var EDIT_MESSAGE = exports.EDIT_MESSAGE = 'EDIT_MESSAGE';
-
-// create new message or update existing message
-var SET_MESSAGE = exports.SET_MESSAGE = 'SET_MESSAGE';
-var SET_MESSAGE_RESULT = exports.SET_MESSAGE_RESULT = 'SET_MESSAGE_RESULT';
-
-// STANDARD_ACTIONS
-
-var requestMessages = exports.requestMessages = function requestMessages() {
-  return {
-    type: REQUEST_MESSAGES
-  };
-};
-
-var receiveMessages = exports.receiveMessages = function receiveMessages(messages) {
-  return {
-    type: RECEIVE_MESSAGES,
-    messages: messages.map(function (message) {
-      return message.data;
-    })
-  };
-};
-
-var requestMessage = exports.requestMessage = function requestMessage() {
-  return {
-    type: REQUEST_MESSAGE
-  };
-};
-
-var receiveMessage = exports.receiveMessage = function receiveMessage(message) {
-  return {
-    type: RECEIVE_MESSAGE,
-    message: message.data
-  };
-};
-
-var viewMessage = exports.viewMessage = function viewMessage(message) {
-  return {
-    type: VIEW_MESSAGE,
-    message: message
-  };
-};
-
-var editMessage = exports.editMessage = function editMessage(message) {
-  return {
-    type: EDIT_MESSAGE,
-    message: message
-  };
-};
-
-var setMessage = exports.setMessage = function setMessage(message) {
-  return {
-    type: SET_MESSAGE,
-    message: message
-  };
-};
-
-var setMessageResult = exports.setMessageResult = function setMessageResult(result) {
-  return {
-    type: SET_MESSAGE_RESULT,
-    result: result
-  };
-};
-
-var showError = exports.showError = function showError(errorMessage) {
-  // console.log("error??", errorMessage)
-  return {
-    type: SHOW_ERROR,
-    errorMessage: errorMessage
-  };
-};
-
-// Thunks!!
-
-function fetchMessages() {
-  return function (dispatch) {
-    dispatch(requestMessages()); // tells the waiting spinner to be true
-    return _superagent2.default.get('https://jsonplaceholder.typicode.com/posts').then(function (res) {
-      dispatch(receiveMessages(res.body));
-    }).catch(function (err) {
-      console.log("error", err);
-      dispatch(showError(err.message));
-    });
-  };
-}
-
-function fetchMessage(id) {
-  return function (dispatch) {
-    dispatch(requestMessages()); // tells the waiting spinner to be true
-    return _superagent2.default // superagent api-client
-    // .get(`/api/v1/reddit/subreddit/${subreddit}`)
-    .get('https://jsonplaceholder.typicode.com/posts/id').then(function (res) {
-      return res.body;
-    })
-    // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
-    .then(function (message) {
-      return dispatch(receiveMessage(message));
-    }).catch(function (err) {
-      console.log("error getting message", err);
-      dispatch(showError(err.message));
-    });
-  };
-}
-
-// TODO POST AND PUT thunks
-// export function setMessage(message) {
-//   return(dispatch) => {
-//     dispatch(setMessage(message)) // tells the waiting spinner to be true
-//     return request // superagent api-client
-//     // fake api doing a put or post and getting a result (success + new/updated message, or error)
-//       .get(`https://jsonplaceholder.typicode.com/posts`)
-//       .then(res => res.body)
-//       .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
-//       .then(message => dispatch(receiveMessage(message)))
-//       .catch(err => {
-//         console.log("error getting message", err)
-//         dispatch(showError(err.message))
-//       })
-//   }
-// }
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -536,6 +364,215 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(40);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.showErrorActionCreator = exports.setMessageResultActionCreator = exports.setMessageActionCreator = exports.editMessageActionCreator = exports.viewMessageActionCreator = exports.receiveMessageActionCreator = exports.requestMessageActionCreator = exports.receiveMessagesActionCreator = exports.requestMessagesActionCreator = exports.SET_MESSAGE_RESULT = exports.SET_MESSAGE = exports.EDIT_MESSAGE = exports.VIEW_MESSAGE = exports.RECEIVE_MESSAGE = exports.REQUEST_MESSAGE = exports.RECEIVE_MESSAGES = exports.REQUEST_MESSAGES = exports.SHOW_ERROR = undefined;
+exports.fetchMessagesThunk = fetchMessagesThunk;
+exports.fetchMessageThunk = fetchMessageThunk;
+exports.setMessageThunk = setMessageThunk;
+
+var _superagent = __webpack_require__(55);
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SHOW_ERROR = exports.SHOW_ERROR = 'SHOW_ERROR';
+// get all messages
+var REQUEST_MESSAGES = exports.REQUEST_MESSAGES = 'REQUEST_MESSAGES';
+var RECEIVE_MESSAGES = exports.RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
+
+// get single message
+var REQUEST_MESSAGE = exports.REQUEST_MESSAGE = 'REQUEST_MESSAGE';
+var RECEIVE_MESSAGE = exports.RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
+
+// view a message (set current message)
+var VIEW_MESSAGE = exports.VIEW_MESSAGE = 'VIEW_MESSAGE';
+
+// edit a message (set current message to be in edit mode)
+var EDIT_MESSAGE = exports.EDIT_MESSAGE = 'EDIT_MESSAGE';
+
+// create new message or update existing message
+var SET_MESSAGE = exports.SET_MESSAGE = 'SET_MESSAGE';
+var SET_MESSAGE_RESULT = exports.SET_MESSAGE_RESULT = 'SET_MESSAGE_RESULT';
+
+// STANDARD_ACTIONS
+
+var requestMessagesActionCreator = exports.requestMessagesActionCreator = function requestMessagesActionCreator() {
+  return {
+    type: REQUEST_MESSAGES
+  };
+};
+
+var receiveMessagesActionCreator = exports.receiveMessagesActionCreator = function receiveMessagesActionCreator(messages) {
+  return {
+    type: RECEIVE_MESSAGES,
+    messages: messages.map(function (message) {
+      return message.data;
+    })
+  };
+};
+
+var requestMessageActionCreator = exports.requestMessageActionCreator = function requestMessageActionCreator() {
+  return {
+    type: REQUEST_MESSAGE
+  };
+};
+
+var receiveMessageActionCreator = exports.receiveMessageActionCreator = function receiveMessageActionCreator(message) {
+  return {
+    type: RECEIVE_MESSAGE,
+    message: message.data
+  };
+};
+
+var viewMessageActionCreator = exports.viewMessageActionCreator = function viewMessageActionCreator(message) {
+  return {
+    type: VIEW_MESSAGE,
+    message: message
+  };
+};
+
+var editMessageActionCreator = exports.editMessageActionCreator = function editMessageActionCreator(message) {
+  return {
+    type: EDIT_MESSAGE,
+    message: message
+  };
+};
+
+var setMessageActionCreator = exports.setMessageActionCreator = function setMessageActionCreator(message) {
+  return {
+    type: SET_MESSAGE,
+    message: message
+  };
+};
+
+var setMessageResultActionCreator = exports.setMessageResultActionCreator = function setMessageResultActionCreator(result) {
+  return {
+    type: SET_MESSAGE_RESULT,
+    result: result
+  };
+};
+
+var showErrorActionCreator = exports.showErrorActionCreator = function showErrorActionCreator(errorMessage) {
+  // console.log("error??", errorMessage)
+  return {
+    type: SHOW_ERROR,
+    errorMessage: errorMessage
+  };
+};
+
+// Thunks!!
+
+function fetchMessagesThunk() {
+  return function (dispatch) {
+    dispatch(requestMessages()); // tells the waiting spinner to be true
+    return _superagent2.default.get('https://jsonplaceholder.typicode.com/posts').then(function (res) {
+      dispatch(receiveMessages(res.body));
+    }).catch(function (err) {
+      console.log("error", err);
+      dispatch(showError(err.message));
+    });
+  };
+}
+
+function fetchMessageThunk(id) {
+  return function (dispatch) {
+    dispatch(requestMessages()); // tells the waiting spinner to be true
+    return _superagent2.default // superagent api-client
+    // .get(`/api/v1/reddit/subreddit/${subreddit}`)
+    .get('https://jsonplaceholder.typicode.com/posts/id').then(function (res) {
+      return res.body;
+    })
+    // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+    .then(function (message) {
+      return dispatch(receiveMessage(message));
+    }).catch(function (err) {
+      console.log("error getting message", err);
+      dispatch(showError(err.message));
+    });
+  };
+}
+
+// for create, update and archive
+function setMessageThunk(message) {
+  return function (dispatch) {
+    dispatch(setMessage(message)); // tells the waiting spinner to be true // don't think need message to be sent
+    if (message.id) {
+      // update existing message with PUT  (for update and archive)
+      return _superagent2.default // superagent api-client
+      .put('https://jsonplaceholder.typicode.com/posts/' + message.id).send(movie).then(function (res) {
+        return res.body;
+      })
+      // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+      .then(function (result) {
+        console.log("setMessage result from setMessage: ", result);
+        dispatch(setMessageResult(result));
+      }).catch(function (err) {
+        console.log("error updating message ", message.id, ". Error: ", err);
+        dispatch(showError(err.message));
+      });
+    } else {
+      // create new message with POST
+      return _superagent2.default // superagent api-client
+      .post('https://jsonplaceholder.typicode.com/posts/').send(movie).then(function (res) {
+        return res.body;
+      })
+      // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+      .then(function (result) {
+        console.log("setMessage result from setMessage: ", result);
+        dispatch(setMessageResult(result));
+      }).catch(function (err) {
+        console.log("error creating new message", err);
+        dispatch(showError(err.message));
+      });
+    }
+  };
+}
+
+// TODO POST AND PUT thunks
+// export function setMessage(message) {
+//   return(dispatch) => {
+//     dispatch(setMessage(message)) // tells the waiting spinner to be true
+//     return request // superagent api-client
+//     // fake api doing a put or post and getting a result (success + new/updated message, or error)
+//       .get(`https://jsonplaceholder.typicode.com/posts`)
+//       .then(res => res.body)
+//       .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+//       .then(message => dispatch(receiveMessage(message)))
+//       .catch(err => {
+//         console.log("error getting message", err)
+//         dispatch(showError(err.message))
+//       })
+//   }
+// }
 
 /***/ }),
 /* 5 */
@@ -1923,7 +1960,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(23);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(10);
 
@@ -1950,6 +1987,10 @@ document.addEventListener('DOMContentLoaded', function () {
     { store: store },
     _react2.default.createElement(_App2.default, null)
   ), document.getElementById('app'));
+  // render(
+  // <App />
+  //   document.getElementById('app')
+  // )
 });
 
 /***/ }),
@@ -1966,7 +2007,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * LICENSE file in the root directory of this source tree.
  */
 
-var k=__webpack_require__(4),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.concurrent_mode"):60111,y=n?Symbol.for("react.forward_ref"):60112,z=n?Symbol.for("react.suspense"):60113,A=n?Symbol.for("react.memo"):
+var k=__webpack_require__(2),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.concurrent_mode"):60111,y=n?Symbol.for("react.forward_ref"):60112,z=n?Symbol.for("react.suspense"):60113,A=n?Symbol.for("react.memo"):
 60115,B=n?Symbol.for("react.lazy"):60116,C="function"===typeof Symbol&&Symbol.iterator;function aa(a,b,e,c,d,g,h,f){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var l=[e,c,d,g,h,f],m=0;a=Error(b.replace(/%s/g,function(){return l[m++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
 function D(a){for(var b=arguments.length-1,e="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=0;c<b;c++)e+="&args[]="+encodeURIComponent(arguments[c+1]);aa(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",e)}var E={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},F={};
 function G(a,b,e){this.props=a;this.context=b;this.refs=F;this.updater=e||E}G.prototype.isReactComponent={};G.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?D("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};G.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function H(){}H.prototype=G.prototype;function I(a,b,e){this.props=a;this.context=b;this.refs=F;this.updater=e||E}var J=I.prototype=new H;
@@ -2005,7 +2046,7 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(4);
+var _assign = __webpack_require__(2);
 var checkPropTypes = __webpack_require__(5);
 
 // TODO: this is special because it gets imported during build.
@@ -3894,7 +3935,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(1),n=__webpack_require__(4),ba=__webpack_require__(11);function ca(a,b,c,d,e,f,g,h){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var k=[c,d,e,f,g,h],l=0;a=Error(b.replace(/%s/g,function(){return k[l++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
+var aa=__webpack_require__(1),n=__webpack_require__(2),ba=__webpack_require__(11);function ca(a,b,c,d,e,f,g,h){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var k=[c,d,e,f,g,h],l=0;a=Error(b.replace(/%s/g,function(){return k[l++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
 function t(a){for(var b=arguments.length-1,c="https://reactjs.org/docs/error-decoder.html?invariant="+a,d=0;d<b;d++)c+="&args[]="+encodeURIComponent(arguments[d+1]);ca(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",c)}aa?void 0:t("227");function da(a,b,c,d,e,f,g,h,k){var l=Array.prototype.slice.call(arguments,3);try{b.apply(c,l)}catch(m){this.onError(m)}}
 var ea=!1,fa=null,ha=!1,ia=null,ja={onError:function(a){ea=!0;fa=a}};function ka(a,b,c,d,e,f,g,h,k){ea=!1;fa=null;da.apply(ja,arguments)}function la(a,b,c,d,e,f,g,h,k){ka.apply(this,arguments);if(ea){if(ea){var l=fa;ea=!1;fa=null}else t("198"),l=void 0;ha||(ha=!0,ia=l)}}var ma=null,na={};
 function oa(){if(ma)for(var a in na){var b=na[a],c=ma.indexOf(a);-1<c?void 0:t("96",a);if(!pa[c]){b.extractEvents?void 0:t("97",a);pa[c]=b;c=b.eventTypes;for(var d in c){var e=void 0;var f=c[d],g=b,h=d;qa.hasOwnProperty(h)?t("99",h):void 0;qa[h]=f;var k=f.phasedRegistrationNames;if(k){for(e in k)k.hasOwnProperty(e)&&ra(k[e],g,h);e=!0}else f.registrationName?(ra(f.registrationName,g,h),e=!0):e=!1;e?void 0:t("98",d,a)}}}}
@@ -4831,7 +4872,7 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(1);
-var _assign = __webpack_require__(4);
+var _assign = __webpack_require__(2);
 var checkPropTypes = __webpack_require__(5);
 var scheduler = __webpack_require__(11);
 var tracing = __webpack_require__(28);
@@ -25101,7 +25142,7 @@ function createProvider(storeKey) {
 
 
 
-var assign = __webpack_require__(4);
+var assign = __webpack_require__(2);
 
 var ReactPropTypesSecret = __webpack_require__(6);
 var checkPropTypes = __webpack_require__(5);
@@ -26756,21 +26797,17 @@ var _errorMessage = __webpack_require__(54);
 
 var _errorMessage2 = _interopRequireDefault(_errorMessage);
 
-var _messages = __webpack_require__(73);
+var _messages = __webpack_require__(61);
 
 var _messages2 = _interopRequireDefault(_messages);
 
-var _currentMessage = __webpack_require__(74);
+var _currentMessage = __webpack_require__(62);
 
 var _currentMessage2 = _interopRequireDefault(_currentMessage);
 
-var _waiting = __webpack_require__(62);
+var _loading = __webpack_require__(63);
 
-var _waiting2 = _interopRequireDefault(_waiting);
-
-var _newPosts = __webpack_require__(63);
-
-var _newPosts2 = _interopRequireDefault(_newPosts);
+var _loading2 = _interopRequireDefault(_loading);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26778,7 +26815,7 @@ exports.default = (0, _redux.combineReducers)({
   errorMessage: _errorMessage2.default,
   messagesReducer: _messages2.default,
   currentMessageReducer: _currentMessage2.default,
-  waiting: _waiting2.default
+  loadingReducer: _loading2.default
 });
 
 /***/ }),
@@ -26792,9 +26829,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(4);
 
-function errorMessage() {
+function errorMessageReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   var action = arguments[1];
 
@@ -26809,7 +26846,7 @@ function errorMessage() {
   }
 }
 
-exports.default = errorMessage;
+exports.default = errorMessageReducer;
 
 /***/ }),
 /* 55 */
@@ -28849,8 +28886,7 @@ module.exports = Agent;
 
 
 /***/ }),
-/* 61 */,
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28860,9 +28896,84 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(4);
 
-var waiting = function waiting() {
+function messagesReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  console.log("messagesReduceder action ", action);
+  switch (action.type) {
+    case _actions.RECEIVE_MESSAGES:
+      console.log("Messages received: state to be action.messages", action.messages);
+      return action.messages; // all messages put into state
+    case _actions.RECEIVE_MESSAGE:
+      console.log("Message received: TODO update message and return all messages", action.message);
+      return state; // need to replace the specific message (if existing) or insert if new
+    case _actions.SET_MESSAGE_RESULT:
+      console.log("Set message result received: TODO update existing or insert new, and return all messages", action.result);
+      return state; // need to replace the specific message (if existing) or insert if new
+
+    default:
+      return state;
+  }
+}
+
+exports.default = messagesReducer();
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _actions = __webpack_require__(4);
+
+function currentMessageReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    console.log("currentMessageReduceder action ", action);
+    switch (action.type) {
+        case _actions.VIEW_MESSAGE:
+            console.log("Viewing message: state to be action.message", action.message);
+            return action.message; // all messages put into state
+        case _actions.EDIT_MESSAGE:
+            console.log("Edit Message: TODO set current message to be in edit mode ", action.message);
+            return state; // need to replace the specific message (if existing) or insert if new
+        case CLOSE_MESSAGE:
+            console.log("Close Message view: TODO set current message to be null ", action.message);
+            return {}; // or should this be null??
+        case ARCHIVE_MESSAGE:
+            // or should this be a thunk?  I think so
+            console.log("Archive Message: TODO set current message to be archived and dispatch to SET MESSAGE?? ", action.message);
+            return state; // need to replace the specific message (if existing) or insert if new
+        default:
+            return state;
+    }
+}
+
+exports.default = currentMessageReducer();
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _actions = __webpack_require__(4);
+
+var loadingReducer = function loadingReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
   var action = arguments[1];
 
@@ -28893,13 +29004,7 @@ var waiting = function waiting() {
   }
 };
 
-exports.default = waiting;
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/home/ec2-user/environment/week6Project/best-wishes2-asynch/client/reducers/newPosts.js'");
+exports.default = loadingReducer;
 
 /***/ }),
 /* 64 */
@@ -28920,25 +29025,21 @@ var _ErrorMessage = __webpack_require__(65);
 
 var _ErrorMessage2 = _interopRequireDefault(_ErrorMessage);
 
-var _LoadSubreddit = __webpack_require__(66);
+var _LoadingIndicator = __webpack_require__(66);
 
-var _LoadSubreddit2 = _interopRequireDefault(_LoadSubreddit);
+var _LoadingIndicator2 = _interopRequireDefault(_LoadingIndicator);
 
-var _SubredditList = __webpack_require__(67);
+var _Header = __webpack_require__(67);
 
-var _SubredditList2 = _interopRequireDefault(_SubredditList);
+var _Header2 = _interopRequireDefault(_Header);
 
-var _WaitIndicator = __webpack_require__(69);
+var _Footer = __webpack_require__(68);
 
-var _WaitIndicator2 = _interopRequireDefault(_WaitIndicator);
+var _Footer2 = _interopRequireDefault(_Footer);
 
-var _NewPosts = __webpack_require__(70);
+var _Main = __webpack_require__(69);
 
-var _NewPosts2 = _interopRequireDefault(_NewPosts);
-
-var _NewPostList = __webpack_require__(71);
-
-var _NewPostList2 = _interopRequireDefault(_NewPostList);
+var _Main2 = _interopRequireDefault(_Main);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28947,11 +29048,10 @@ var App = function App() {
     'div',
     { className: 'app' },
     _react2.default.createElement(_ErrorMessage2.default, null),
-    _react2.default.createElement(_LoadSubreddit2.default, null),
-    _react2.default.createElement(_WaitIndicator2.default, null),
-    _react2.default.createElement(_SubredditList2.default, null),
-    _react2.default.createElement(_NewPosts2.default, null),
-    _react2.default.createElement(_NewPostList2.default, null)
+    _react2.default.createElement(_LoadingIndicator2.default, null),
+    _react2.default.createElement(_Header2.default, null),
+    _react2.default.createElement(_Main2.default, null),
+    _react2.default.createElement(_Footer2.default, null)
   );
 };
 
@@ -28972,7 +29072,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28994,10 +29094,38 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(ErrorMessage);
 
 /***/ }),
 /* 66 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/home/ec2-user/environment/week6Project/best-wishes2-asynch/client/components/LoadSubreddit.jsx'");
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LoadingIndicator = function LoadingIndicator(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'error' },
+    props.waiting && _react2.default.createElement('img', { src: '/animated-circle.gif' })
+  );
+};
+
+function mapStateToProps(state) {
+  return {
+    waiting: state.waiting
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(LoadingIndicator);
 
 /***/ }),
 /* 67 */
@@ -29014,45 +29142,52 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
-
-var _Post = __webpack_require__(68);
-
-var _Post2 = _interopRequireDefault(_Post);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Subreddit = function Subreddit(_ref) {
-  var subreddits = _ref.subreddits;
+var Header = function Header(props) {
   return _react2.default.createElement(
-    'div',
+    _react2.default.Fragment,
     null,
-    subreddits.map(function (post, i) {
-      return _react2.default.createElement(_Post2.default, {
-        key: i,
-        title: post.title,
-        date: post.created_utc,
-        summary: post.selftext
-
-      });
-    })
+    _react2.default.createElement(
+      'p',
+      null,
+      'I\'m a header'
+    )
   );
 };
 
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    subreddits: state.subreddits
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Subreddit);
+exports.default = Header;
 
 /***/ }),
 /* 68 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/home/ec2-user/environment/week6Project/best-wishes2-asynch/client/components/Post.jsx'");
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Footer = function Footer(props) {
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement(
+      'p',
+      null,
+      'I\'m a footer'
+    )
+  );
+};
+
+exports.default = Footer;
 
 /***/ }),
 /* 69 */
@@ -29069,43 +29204,30 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _MessageBoard = __webpack_require__(70);
+
+var _MessageBoard2 = _interopRequireDefault(_MessageBoard);
+
+var _Message = __webpack_require__(72);
+
+var _Message2 = _interopRequireDefault(_Message);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var WaitIndicator = function WaitIndicator(props) {
+var Main = function Main(props) {
   return _react2.default.createElement(
-    'div',
-    { className: 'error' },
-    props.waiting && _react2.default.createElement('img', { src: '/animated-circle.gif' })
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement(_MessageBoard2.default, null),
+    _react2.default.createElement(_Message2.default, null),
+    '  '
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    waiting: state.waiting
-  };
-}
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(WaitIndicator);
+exports.default = Main;
 
 /***/ }),
 /* 70 */
-/***/ (function(module, exports) {
-
-"use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/home/ec2-user/environment/week6Project/best-wishes2-asynch/client/components/NewPosts.jsx'");
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports) {
-
-"use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/home/ec2-user/environment/week6Project/best-wishes2-asynch/client/components/NewPostList.jsx'");
-
-/***/ }),
-/* 72 */,
-/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29115,62 +29237,203 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(3);
+var _react = __webpack_require__(1);
 
-function messagesReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments[1];
+var _react2 = _interopRequireDefault(_react);
 
-  console.log("messagesReduceder action ", action);
-  switch (action.type) {
-    case _actions.RECEIVE_MESSAGES:
-      console.log("Messages received: state to be action.messages", action.messages);
-      return action.messages; // all messages put into state
-    case _actions.RECEIVE_MESSAGE:
-      console.log("Message received: TODO update message and return all messages", action.message);
-      return state; // need to replace the specific message (if existing) or insert if new
-    case _actions.SET_MESSAGE_RESULT:
-      console.log("Set message result received: TODO update existing or insert new, and return all messages", action.result);
-      return state; // need to replace the specific message (if existing) or insert if new
+var _MiniMessage = __webpack_require__(71);
 
-    default:
-      return state;
-  }
+var _MiniMessage2 = _interopRequireDefault(_MiniMessage);
+
+var _reactRedux = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MessageBoard = function MessageBoard(props) {
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    'const messages = props.messages messages.map((message, i) => ',
+    _react2.default.createElement(_MiniMessage2.default, { key: i, index: i, message: message }),
+    ')'
+  );
+};
+
+function mapStateToProps(state) {
+  return {
+    messages: state.messages
+  };
 }
 
-exports.default = messagesReducer();
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(MessageBoard);
 
 /***/ }),
-/* 74 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
-var _actions = __webpack_require__(3);
+var _react = __webpack_require__(1);
 
-function currentMessageReducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var action = arguments[1];
+var _react2 = _interopRequireDefault(_react);
 
-    console.log("currentMessageReduceder action ", action);
-    switch (action.type) {
-        case _actions.VIEW_MESSAGE:
-            console.log("Viewing message: state to be action.message", action.message);
-            return action.messages; // all messages put into state
-        case _actions.EDIT_MESSAGE:
-            console.log("Edit Message: TODO set current message to be in edit mode ", action.message);
-            return state; // need to replace the specific message (if existing) or insert if new
-        default:
-            return state;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MiniMessage = function MiniMessage(props) {
+  return _react2.default.createElement(
+    _react2.default.Fragment,
+    null,
+    _react2.default.createElement(
+      'div',
+      null,
+      props.title
+    ),
+    _react2.default.createElement(
+      'p',
+      null,
+      'ID: ',
+      props.id
+    ),
+    _react2.default.createElement(
+      'p',
+      null,
+      'To: TODO '
+    ),
+    _react2.default.createElement(
+      'p',
+      null,
+      'MESSAGE: ',
+      props.body,
+      ' '
+    )
+  );
+};
+
+exports.default = MiniMessage;
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// will be for view and for like and for archive and for edit (based on local state of current message)
+var Message = function (_React$Component) {
+  _inherits(Message, _React$Component);
+
+  function Message(props) {
+    _classCallCheck(this, Message);
+
+    // set initial state of null/fake message
+    var _this = _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
+
+    _this.state = {
+      currentMessage: {
+        id: 0,
+        to: "Santa",
+        from: "mini-me",
+        message: "You should never see this message",
+        color: "#FFFFFF",
+        like_count: 999,
+        archived: false,
+        created_at: null
+      },
+      editMode: false
+      // bind any functions
+    };return _this;
+  }
+
+  _createClass(Message, [{
+    key: 'render',
+    value: function render() {
+      // depending on state, return the standard view (with like and delete and edit button) or edit/create view
+      message = this.props.currentMessage || this.state.currentMessage;
+      if (this.state.editMode) {
+        return _react2.default.createElement(
+          _react2.default.Fragment,
+          null,
+          _react2.default.createElement(
+            'div',
+            null,
+            message
+          )
+        );
+      } else {
+        return _react2.default.createElement(
+          _react2.default.Fragment,
+          null,
+          _react2.default.createElement(
+            'div',
+            null,
+            message.title
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'To: ',
+            message.to,
+            ' '
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'MESSAGE: ',
+            message.message,
+            ' '
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'Likes: ',
+            message.like_count,
+            ' '
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'EDIT | ARCHIVE | LIKE'
+          )
+        );
+      }
     }
+  }]);
+
+  return Message;
+}(_react2.default.Component);
+
+function mapStateToProps(state) {
+  return {
+    currentMessage: state.currentMessage
+  };
 }
 
-exports.default = currentMessageReducer();
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Message);
 
 /***/ })
 /******/ ]);

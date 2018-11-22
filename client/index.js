@@ -1,7 +1,7 @@
 import React from 'react'
-import {render} from 'react-dom'
-import {Provider} from 'react-redux'
-import {createStore, applyMiddleware, compose} from 'redux'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
 import reducers from './reducers'
@@ -19,4 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     </Provider>,
     document.getElementById('app')
   )
+  // render(
+  // <App />
+  //   document.getElementById('app')
+  // )
+
 })

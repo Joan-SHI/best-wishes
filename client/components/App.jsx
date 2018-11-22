@@ -1,22 +1,21 @@
 import React from 'react'
 
 import ErrorMessage from './ErrorMessage'
-import LoadSubreddit from './LoadSubreddit'
-import SubredditList from './SubredditList'
-import WaitIndicator from './WaitIndicator'
-import NewPosts from './NewPosts';
-import NewPostList from './NewPostList'
-
+import LoadingIndicator from './LoadingIndicator'
+import Header from './Header'
+import Footer from './Footer'
+import Main from './Main'
 
 const App = () => (
   <div className='app'>
+    {/* <Header /> */}
     <ErrorMessage />
-    <LoadSubreddit />
-    <WaitIndicator />
-    <SubredditList />
-    <NewPosts />
-    <NewPostList />
+    <LoadingIndicator />
+    <Header />
+    <Main />
+    <Footer />
   </div>
 )
+
 
 export default App

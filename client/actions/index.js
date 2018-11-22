@@ -22,62 +22,61 @@ export const SET_MESSAGE_RESULT = 'SET_MESSAGE_RESULT'
 
 // STANDARD_ACTIONS
 
-export const requestMessages = () => {
+export const requestMessagesActionCreator = () => {
   return {
     type: REQUEST_MESSAGES
   }
 }
 
-export const receiveMessages = (messages) => {
+export const receiveMessagesActionCreator = (messages) => {
   return {
     type: RECEIVE_MESSAGES,
     messages: messages.map(message => message.data)
   }
 }
 
-export const requestMessage = () => {
+export const requestMessageActionCreator = () => {
   return {
     type: REQUEST_MESSAGE
   }
 }
 
-export const receiveMessage = (message) => {
+export const receiveMessageActionCreator = (message) => {
   return {
     type: RECEIVE_MESSAGE,
     message: message.data
   }
 }
 
-export const viewMessage = (message) => {
+export const viewMessageActionCreator = (message) => {
   return {
     type: VIEW_MESSAGE,
     message: message
   }
 }
 
-export const editMessage = (message) => {
+export const editMessageActionCreator = (message) => {
   return {
     type: EDIT_MESSAGE,
     message: message
   }
 }
 
-
-export const setMessage = (message) => {
+export const setMessageActionCreator = (message) => {
   return {
     type: SET_MESSAGE,
     message: message
   }
 }
 
-export const setMessageResult = (result) => {
+export const setMessageResultActionCreator = (result) => {
   return {
     type: SET_MESSAGE_RESULT,
     result: result
   }
 }
 
-export const showError = (errorMessage) => {
+export const showErrorActionCreator = (errorMessage) => {
   // console.log("error??", errorMessage)
   return {
     type: SHOW_ERROR,
@@ -90,8 +89,8 @@ export const showError = (errorMessage) => {
 
 // Thunks!!
 
-export function fetchMessages() {
-  return(dispatch) => {
+export function fetchMessagesThunk() {
+  return (dispatch) => {
     dispatch(requestMessages()) // tells the waiting spinner to be true
     return request
       .get(`https://jsonplaceholder.typicode.com/posts`)
@@ -105,8 +104,8 @@ export function fetchMessages() {
   }
 }
 
-export function fetchMessage(id) {
-  return(dispatch) => {
+export function fetchMessageThunk(id) {
+  return (dispatch) => {
     dispatch(requestMessages()) // tells the waiting spinner to be true
     return request // superagent api-client
       // .get(`/api/v1/reddit/subreddit/${subreddit}`)
@@ -118,6 +117,44 @@ export function fetchMessage(id) {
         console.log("error getting message", err)
         dispatch(showError(err.message))
       })
+  }
+}
+
+// for create, update and archive
+export function setMessageThunk(message) {
+  return (dispatch) => {
+    dispatch(setMessage(message)) // tells the waiting spinner to be true // don't think need message to be sent
+    if (message.id) {
+      // update existing message with PUT  (for update and archive)
+      return request // superagent api-client
+        .put(`https://jsonplaceholder.typicode.com/posts/${message.id}`)
+        .send(movie)
+        .then(res => res.body)
+        // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+        .then(result => {
+          console.log("setMessage result from setMessage: ", result)
+          dispatch(setMessageResult(result))
+        })
+        .catch(err => {
+          console.log("error updating message ", message.id, ". Error: ", err)
+          dispatch(showError(err.message))
+        })
+    } else {
+      // create new message with POST
+      return request // superagent api-client
+        .post(`https://jsonplaceholder.typicode.com/posts/`)
+        .send(movie)
+        .then(res => res.body)
+        // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+        .then(result => {
+          console.log("setMessage result from setMessage: ", result)
+          dispatch(setMessageResult(result))
+        })
+        .catch(err => {
+          console.log("error creating new message", err)
+          dispatch(showError(err.message))
+        })
+    }
   }
 }
 

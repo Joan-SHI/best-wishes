@@ -9,7 +9,7 @@ import {
 }
 from '../actions'
 
-const waiting = (state = false, action) => {
+const loadingReducer = (state = false, action) => {
   switch(action.type) {
     case REQUEST_MESSAGES:
       return true
@@ -37,4 +37,4 @@ const waiting = (state = false, action) => {
   }
 }
 
-export default waiting
+export default loadingReducer
