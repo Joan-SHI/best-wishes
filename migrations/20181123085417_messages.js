@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('messages', table => {
     table.increments('id').primary()
     table.string('to')
-    table.string('body')
+    table.string('message')
     table.string('from')
     table.integer('like_count')
     table.string('color')

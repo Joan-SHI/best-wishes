@@ -7,7 +7,7 @@ const router = express.Router()
 router.use(express.json())
 
 router.get('/', (req, res) => {
-  db.getMessages()
+  db.returnMessagesBasedOnIfTheyAreArchived()
     .then(messages => {
       res.json({ messages: messages })
     })
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/messages/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const id = Number(req.params.id)
   db.getMessage(id)
     .then(message => {
@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
   const message = {
     to: req.body.to,
     from: req.body.from,
-    body: req.body.body,
+    body: req.body.message,
   }
 
   db.saveMessage(message)
@@ -62,9 +62,9 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = Number(req.params.id)
 
-  db.deletMessage(id)
+  db.deleteMessage(id)
     .then(() => {
-      res.json({ message: 'Done' })
+      res.json({ result: 'Done' })
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)

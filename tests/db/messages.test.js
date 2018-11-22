@@ -12,21 +12,21 @@ beforeEach(() => {
 
 afterEach(() => testEnv.cleanup(testDb))
 
-test('getUsers gets all users', () => {
+test('getMessages gets all messages', () => {
   // One for each letter of the alphabet
   const expected = 26
-  return db.getUsers(testDb)
-    .then(users => {
-      const actual = users.length
+  return db.getMessages(testDb)
+    .then(messages => {
+      const actual = messages.length
       expect(actual).toBe(expected)
     })
 })
 
-test('getUser gets a user by ID', () => {
-  const expected = 'Ambitious Aardvark'
-  return db.getUser(99901, testDb)
-    .then(user => {
-      const actual = user.name
+test('getMessage gets a message by ID', () => {
+  const expected = 'Ollie'
+  return db.getMessages(1, testDb)
+    .then(message => {
+      const actual = message.from
       expect(actual).toBe(expected)
     })
 })

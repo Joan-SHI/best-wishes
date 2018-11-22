@@ -1,6 +1,6 @@
 const express = require('express')
 
-const users = require('./routes/users')
+const messages = require('./routes/messages')
 
 const server = express()
 
@@ -8,6 +8,6 @@ const server = express()
 server.use(express.json())
 
 // Routes
-server.use('/users', users)
+server.use('/messages', messages)
 
 module.exports = server
