@@ -270,24 +270,6 @@ if (process.env.NODE_ENV === 'production') {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(40);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -481,6 +463,24 @@ function setMessageThunk(message) {
 //       })
 //   }
 // }
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(40);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
 
 /***/ }),
 /* 4 */
@@ -1965,7 +1965,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(23);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(10);
 
@@ -26834,7 +26834,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(2);
 
 function errorMessageReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -28901,7 +28901,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(2);
 
 function messagesReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -28918,6 +28918,7 @@ function messagesReducer() {
         return state; // need to replace the specific message (if existing) or insert if new
       case _actions.SET_MESSAGE_RESULT:
         console.log("Set message result received: TODO update existing or insert new, and return all messages", action.result);
+
         return state; // need to replace the specific message (if existing) or insert if new
 
       default:
@@ -28941,13 +28942,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(2);
 
 function currentMessageReducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var action = arguments[1];
 
-    console.log("currentMessageReduceder action ", action);
+    // console.log("currentMessageReduceder action ", action)
     if (action) {
         switch (action.type) {
             case _actions.VIEW_MESSAGE:
@@ -28983,7 +28984,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(2);
 
 var loadingReducer = function loadingReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -29090,7 +29091,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29125,7 +29126,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29262,9 +29263,9 @@ var _MiniMessage = __webpack_require__(71);
 
 var _MiniMessage2 = _interopRequireDefault(_MiniMessage);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29316,9 +29317,9 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(2);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29369,7 +29370,9 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
+
+var _actions = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29398,6 +29401,8 @@ var Message = function (_React$Component) {
   _createClass(Message, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       // depending on state, return the standard view (with like and delete and edit button) or edit/create view
       var message = this.props.currentMessage || this.state.currentMessage;
       console.log("Message component: current message? ", message);
@@ -29426,13 +29431,13 @@ var Message = function (_React$Component) {
               'h3',
               null,
               'To: ',
-              message && message.to || "No to"
+              message && message.to || message.id || "No to"
             ),
             _react2.default.createElement(
               'p',
               null,
               'MESSAGE: ',
-              message && message.message || "no message",
+              message && message.message || message.title || "no message",
               ' '
             ),
             _react2.default.createElement(
@@ -29443,9 +29448,22 @@ var Message = function (_React$Component) {
               ' '
             ),
             _react2.default.createElement(
-              'p',
+              'span',
               null,
-              'EDIT | ARCHIVE | LIKE'
+              'color'
+            ),
+            _react2.default.createElement('input', { type: 'color', value: message.color || '#ffffff', onChange: function onChange(e) {
+                message.color = e.target.value;
+                _this2.props.dispatch((0, _actions.setMessageThunk)(message));
+              } }),
+            _react2.default.createElement(
+              'button',
+              { onClick: function onClick(e) {
+                  // add one to likes
+                  message.like_count = 99; //+= 1 || 1
+                  _this2.props.dispatch((0, _actions.setMessageThunk)(message));
+                } },
+              'like'
             )
           );
         }

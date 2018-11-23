@@ -18,6 +18,7 @@ function messagesReducer(state = [], action) {
         return state // need to replace the specific message (if existing) or insert if new
       case SET_MESSAGE_RESULT:
         console.log("Set message result received: TODO update existing or insert new, and return all messages", action.result)
+
         return state // need to replace the specific message (if existing) or insert if new
 
       default:

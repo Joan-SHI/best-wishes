@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { setMessageActionCreator, setMessageThunk } from '../actions'
 
 
 // will be for view and for like and for archive and for edit (based on local state of current message)
@@ -31,10 +32,23 @@ class Message extends React.Component {
         return (
           <React.Fragment>
             <h3>I'm a message view</h3>
-            <h3>To: {message && message.to || "No to"}</h3>
-            <p>MESSAGE: {message && message.message || "no message"} </p>
+            <h3>To: {message && message.to || message.id || "No to"}</h3>
+            <p>MESSAGE: {message && message.message || message.title || "no message"} </p>
             <p>Likes: {message && message.like_count || "no like count"} </p>
-            <p>EDIT | ARCHIVE | LIKE</p>
+            {/* <p>EDIT | ARCHIVE | LIKE</p> */}
+
+            <span>color</span><input type="color" value={message.color || '#ffffff'} onChange={e => {
+              message.color = e.target.value
+              this.props.dispatch(setMessageThunk(message))
+            }} />
+
+
+            <button onClick={(e) => {
+              // add one to likes
+              message.like_count = 99//+= 1 || 1
+              this.props.dispatch(setMessageThunk(message))
+            }}>like</button>
+
           </React.Fragment>
         )
       }

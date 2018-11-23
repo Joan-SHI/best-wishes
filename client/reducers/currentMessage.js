@@ -6,7 +6,7 @@ import {
 
 
 function currentMessageReducer(state = null, action) {
-    console.log("currentMessageReduceder action ", action)
+    // console.log("currentMessageReduceder action ", action)
     if (action) {
         switch (action.type) {
             case VIEW_MESSAGE:
