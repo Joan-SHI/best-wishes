@@ -1,17 +1,17 @@
 html {
-  background-color: #d8c8a8;
-  background-image: url("assets/background.png");
-  font-family: "Noto Sans SC", sans-serif;
+  background-color: brown;
 }
 
 @media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
 }
 
-body {
-  margin: 80px;
-}
-
-.board {
+.miniMessage {
+  color: white;
+  margin: 20px;
+  border-radius: 2px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(7, 100px);
