@@ -29,9 +29,10 @@ export const requestMessagesActionCreator = () => {
 }
 
 export const receiveMessagesActionCreator = (messages) => {
+  console.log("Creating RECEIVE_MESSAGES action, with messages: ", messages)
   return {
     type: RECEIVE_MESSAGES,
-    messages: messages.map(message => message.data)
+    messages: messages
   }
 }
 
@@ -91,31 +92,34 @@ export const showErrorActionCreator = (errorMessage) => {
 
 export function fetchMessagesThunk() {
   return (dispatch) => {
-    dispatch(requestMessages()) // tells the waiting spinner to be true
+    console.log("Fetch messages thunk:")
+    dispatch(requestMessagesActionCreator()) // tells the waiting spinner to be true
     return request
       .get(`https://jsonplaceholder.typicode.com/posts`)
-      .then(res => {
-        dispatch(receiveMessages(res.body))
+      .then(res => res.body)
+      .then(messages => {
+        console.log("Fetch messages thunk response body (messages): ", messages)
+        dispatch(receiveMessagesActionCreator(messages))
       })
       .catch(err => {
         console.log("error", err)
-        dispatch(showError(err.message))
+        dispatch(showErrorActionCreator(err.message))
       })
   }
 }
 
 export function fetchMessageThunk(id) {
   return (dispatch) => {
-    dispatch(requestMessages()) // tells the waiting spinner to be true
+    dispatch(requestMessagesActionCreator()) // tells the waiting spinner to be true
     return request // superagent api-client
       // .get(`/api/v1/reddit/subreddit/${subreddit}`)
       .get(`https://jsonplaceholder.typicode.com/posts/id`)
       .then(res => res.body)
       // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
-      .then(message => dispatch(receiveMessage(message)))
+      .then(message => dispatch(receiveMessageActionCreator(message)))
       .catch(err => {
         console.log("error getting message", err)
-        dispatch(showError(err.message))
+        dispatch(showErrorActionCreator(err.message))
       })
   }
 }
@@ -123,7 +127,7 @@ export function fetchMessageThunk(id) {
 // for create, update and archive
 export function setMessageThunk(message) {
   return (dispatch) => {
-    dispatch(setMessage(message)) // tells the waiting spinner to be true // don't think need message to be sent
+    dispatch(setMessageActionCreator(message)) // tells the waiting spinner to be true // don't think need message to be sent
     if (message.id) {
       // update existing message with PUT  (for update and archive)
       return request // superagent api-client
@@ -133,11 +137,11 @@ export function setMessageThunk(message) {
         // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
         .then(result => {
           console.log("setMessage result from setMessage: ", result)
-          dispatch(setMessageResult(result))
+          dispatch(setMessageResultActionCreator(result))
         })
         .catch(err => {
           console.log("error updating message ", message.id, ". Error: ", err)
-          dispatch(showError(err.message))
+          dispatch(showErrorActionCreator(err.message))
         })
     } else {
       // create new message with POST
@@ -148,11 +152,11 @@ export function setMessageThunk(message) {
         // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
         .then(result => {
           console.log("setMessage result from setMessage: ", result)
-          dispatch(setMessageResult(result))
+          dispatch(setMessageResultActionCreator(result))
         })
         .catch(err => {
           console.log("error creating new message", err)
-          dispatch(showError(err.message))
+          dispatch(showErrorActionCreator(err.message))
         })
     }
   }

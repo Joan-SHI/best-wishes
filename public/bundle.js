@@ -432,11 +432,10 @@ var requestMessagesActionCreator = exports.requestMessagesActionCreator = functi
 };
 
 var receiveMessagesActionCreator = exports.receiveMessagesActionCreator = function receiveMessagesActionCreator(messages) {
+  console.log("Creating RECEIVE_MESSAGES action, with messages: ", messages);
   return {
     type: RECEIVE_MESSAGES,
-    messages: messages.map(function (message) {
-      return message.data;
-    })
+    messages: messages
   };
 };
 
@@ -493,19 +492,23 @@ var showErrorActionCreator = exports.showErrorActionCreator = function showError
 
 function fetchMessagesThunk() {
   return function (dispatch) {
-    dispatch(requestMessages()); // tells the waiting spinner to be true
+    console.log("Fetch messages thunk:");
+    dispatch(requestMessagesActionCreator()); // tells the waiting spinner to be true
     return _superagent2.default.get('https://jsonplaceholder.typicode.com/posts').then(function (res) {
-      dispatch(receiveMessages(res.body));
+      return res.body;
+    }).then(function (messages) {
+      console.log("Fetch messages thunk response body (messages): ", messages);
+      dispatch(receiveMessagesActionCreator(messages));
     }).catch(function (err) {
       console.log("error", err);
-      dispatch(showError(err.message));
+      dispatch(showErrorActionCreator(err.message));
     });
   };
 }
 
 function fetchMessageThunk(id) {
   return function (dispatch) {
-    dispatch(requestMessages()); // tells the waiting spinner to be true
+    dispatch(requestMessagesActionCreator()); // tells the waiting spinner to be true
     return _superagent2.default // superagent api-client
     // .get(`/api/v1/reddit/subreddit/${subreddit}`)
     .get('https://jsonplaceholder.typicode.com/posts/id').then(function (res) {
@@ -513,10 +516,10 @@ function fetchMessageThunk(id) {
     })
     // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
     .then(function (message) {
-      return dispatch(receiveMessage(message));
+      return dispatch(receiveMessageActionCreator(message));
     }).catch(function (err) {
       console.log("error getting message", err);
-      dispatch(showError(err.message));
+      dispatch(showErrorActionCreator(err.message));
     });
   };
 }
@@ -524,7 +527,7 @@ function fetchMessageThunk(id) {
 // for create, update and archive
 function setMessageThunk(message) {
   return function (dispatch) {
-    dispatch(setMessage(message)); // tells the waiting spinner to be true // don't think need message to be sent
+    dispatch(setMessageActionCreator(message)); // tells the waiting spinner to be true // don't think need message to be sent
     if (message.id) {
       // update existing message with PUT  (for update and archive)
       return _superagent2.default // superagent api-client
@@ -534,10 +537,10 @@ function setMessageThunk(message) {
       // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
       .then(function (result) {
         console.log("setMessage result from setMessage: ", result);
-        dispatch(setMessageResult(result));
+        dispatch(setMessageResultActionCreator(result));
       }).catch(function (err) {
         console.log("error updating message ", message.id, ". Error: ", err);
-        dispatch(showError(err.message));
+        dispatch(showErrorActionCreator(err.message));
       });
     } else {
       // create new message with POST
@@ -548,10 +551,10 @@ function setMessageThunk(message) {
       // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
       .then(function (result) {
         console.log("setMessage result from setMessage: ", result);
-        dispatch(setMessageResult(result));
+        dispatch(setMessageResultActionCreator(result));
       }).catch(function (err) {
         console.log("error creating new message", err);
-        dispatch(showError(err.message));
+        dispatch(showErrorActionCreator(err.message));
       });
     }
   };
@@ -26813,7 +26816,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (0, _redux.combineReducers)({
   errorMessage: _errorMessage2.default,
-  messagesReducer: _messages2.default,
+  messages: _messages2.default,
   currentMessageReducer: _currentMessage2.default,
   loadingReducer: _loading2.default
 });
@@ -28923,7 +28926,7 @@ function messagesReducer() {
   }
 }
 
-exports.default = messagesReducer();
+exports.default = messagesReducer;
 
 /***/ }),
 /* 62 */
@@ -29259,11 +29262,12 @@ var _MiniMessage2 = _interopRequireDefault(_MiniMessage);
 
 var _reactRedux = __webpack_require__(3);
 
+var _actions = __webpack_require__(4);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MessageBoard = function MessageBoard(props) {
-  var messages = props.messages || [];
-  messages.push({ id: 0, to: "mrs claus" }, { id: 1, to: "Joan", message: "thanks for coffee, lunch" });
+  var messages = props.messages || [{ id: 0, to: "mrs claus" }, { id: 1, to: "Joan", message: "thanks for coffee, lunch" }];
 
   return _react2.default.createElement(
     _react2.default.Fragment,
@@ -29272,6 +29276,13 @@ var MessageBoard = function MessageBoard(props) {
       'h3',
       null,
       'Message Board'
+    ),
+    _react2.default.createElement(
+      'button',
+      { onClick: function onClick() {
+          return props.dispatch((0, _actions.fetchMessagesThunk)());
+        } },
+      'Fetch Messages'
     ),
     messages.map(function (message, i) {
       console.log("Message board map loop: i, message: ", i, message);
@@ -29314,12 +29325,6 @@ var MiniMessage = function MiniMessage(props) {
       'h4',
       null,
       'I\'m a mini message'
-    ),
-    _react2.default.createElement(
-      'p',
-      null,
-      ' ID: ',
-      message.id
     ),
     _react2.default.createElement(
       'p',
@@ -29371,16 +29376,6 @@ var Message = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
 
     _this.state = {
-      // currentMessage: {
-      //   id: 0,
-      //   to: "Santa",
-      //   from: "mini-me",
-      //   message: "You should never see this message",
-      //   color: "#FFFFFF",
-      //   like_count: 999,
-      //   archived: false,
-      //   created_at: null
-      // },
       editMode: false
       // bind any functions
     };return _this;

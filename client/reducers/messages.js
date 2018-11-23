@@ -3,13 +3,13 @@ import {
   RECEIVE_MESSAGE,
   SET_MESSAGE_RESULT
 }
-from '../actions'
+  from '../actions'
 
 
 function messagesReducer(state = [], action) {
   console.log("messagesReduceder action ", action)
-  if(action) {
-    switch(action.type) {
+  if (action) {
+    switch (action.type) {
       case RECEIVE_MESSAGES:
         console.log("Messages received: state to be action.messages", action.messages)
         return action.messages // all messages put into state
@@ -30,4 +30,4 @@ function messagesReducer(state = [], action) {
 }
 
 
-export default messagesReducer()
+export default messagesReducer

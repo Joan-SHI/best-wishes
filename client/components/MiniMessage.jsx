@@ -2,10 +2,9 @@ import React from 'react'
 
 const MiniMessage = (props) => {
   const message = props.message
-  return(
+  return (
     <React.Fragment>
-    <h4>I'm a mini message</h4>
-      <p> ID: { message.id }</p>
+      <h4>I'm a mini message</h4>
       <p>To: {message.to}  </p>
     </React.Fragment >
   )

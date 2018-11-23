@@ -1,20 +1,25 @@
 import React from 'react'
 import MiniMessage from './MiniMessage'
 import { connect } from 'react-redux'
+import { fetchMessagesThunk } from '../actions'
 
 const MessageBoard = (props) => {
-  const messages = props.messages || []
-  messages.push({ id: 0, to: "mrs claus" }, { id: 1, to: "Joan", message: "thanks for coffee, lunch" })
+  const messages = props.messages || [{ id: 0, to: "mrs claus" }, { id: 1, to: "Joan", message: "thanks for coffee, lunch" }]
 
-  return(
+
+  return (
     <React.Fragment>
-    <h3>Message Board</h3>
-    {messages.map((message, i) => {
-    console.log("Message board map loop: i, message: ", i, message)
-         return ( <MiniMessage key={i} index={i} message={message} /> )
+      <h3>Message Board</h3>
+      <button onClick={() => props.dispatch(fetchMessagesThunk())}>
+        Fetch Messages
+    </button>
+
+      {messages.map((message, i) => {
+        console.log("Message board map loop: i, message: ", i, message)
+        return (<MiniMessage key={i} index={i} message={message} />)
       })
-      
-    }
+
+      }
 
     </React.Fragment>
   )

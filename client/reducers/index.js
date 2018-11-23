@@ -7,7 +7,7 @@ import loadingReducer from './loading'
 
 export default combineReducers({
   errorMessage,
-  messagesReducer,
+  messages: messagesReducer,
   currentMessageReducer,
   loadingReducer
 })
