@@ -28,14 +28,14 @@ test('/messasges returns all messages', () => {
 })
 
 test('/messages/:id returns a message by ID', () => {
-  const expected = 'James'
+  const expected = 'Cathy'
   return request(server)
-    .get('/messages/10')
+    .get('/messages/1')
     .expect('Content-Type', /json/)
     .expect(200)
     .then(res => {
-      expect(res.body.message.id).toBe(10)
-      expect(res.body.message.to).toBe(expected)
+      expect(res.body.messages.id).toBe(1)
+      expect(res.body.messages.to).toBe(expected)
     })
     .catch(err => {
       expect(err).toBeFalsy()

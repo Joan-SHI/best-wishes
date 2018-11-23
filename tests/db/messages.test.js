@@ -14,7 +14,7 @@ afterEach(() => testEnv.cleanup(testDb))
 
 test('getMessages gets all messages', () => {
   // One for each letter of the alphabet
-  const expected = 26
+  const expected = 12
   return db.getMessages(testDb)
     .then(messages => {
       const actual = messages.length
@@ -24,7 +24,7 @@ test('getMessages gets all messages', () => {
 
 test('getMessage gets a message by ID', () => {
   const expected = 'Ollie'
-  return db.getMessages(1, testDb)
+  return db.getMessage(1, testDb)
     .then(message => {
       const actual = message.from
       expect(actual).toBe(expected)
