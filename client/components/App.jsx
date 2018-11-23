@@ -70,12 +70,6 @@ class App extends React.Component {
   }
 }
 
-// const App = () => (
-//   <div className='app'>
-//   <p>Hello Joan</p>
-//   </div>
-// )
-
 export default connect()(App)
 {
   /* <Header />

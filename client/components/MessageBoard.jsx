@@ -7,7 +7,6 @@ const MessageBoard = props => {
   return (
     <React.Fragment>
       {props.messages.filter((message, i) => i < 20).map((message, i) => {
-        // console.log("Message board map loop: i, message: ", i, message)
         return <MiniMessage key={i} index={i} message={message} />;
       })}
     </React.Fragment>
