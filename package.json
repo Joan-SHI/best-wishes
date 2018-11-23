@@ -50,9 +50,6 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "superagent": "^4.0.0",
-    "webpack": "^3.11.0",
-    "sqlite3": "^3.1.13",
-    "express": "^4.16.2",
-    "knex": "^0.14.2"
+    "webpack": "^3.11.0"
   }
 }
