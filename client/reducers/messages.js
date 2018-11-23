@@ -7,7 +7,7 @@ import {
 
 
 function messagesReducer(state = [], action) {
-  console.log("messagesReduceder action ", action)
+  // console.log("messagesReduceder action ", action)
   if (action) {
     switch (action.type) {
       case RECEIVE_MESSAGES:

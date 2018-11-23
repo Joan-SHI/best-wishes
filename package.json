@@ -1,7 +1,10 @@
 {
-  "name": "boilerplate-express-api",
+  "name": "best-wishes-react-client",
+  "engines": {
+    "node": "<=9"
+  },
   "version": "0.1.2",
-  "description": "Express boilerplate for APIs with Knex.js",
+  "description": "Say something nice",
   "main": "index.js",
   "scripts": {
     "knex": "knex",
@@ -44,6 +47,7 @@
     "babel-preset-react": "^6.24.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "express": "^4.16.4",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^5.1.1",
