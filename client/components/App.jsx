@@ -1,20 +1,20 @@
-import React from 'react'
+import React from "react";
 
-import ErrorMessage from './ErrorMessage'
-import LoadingIndicator from './LoadingIndicator'
-import Header from './Header'
-import Footer from './Footer'
-import Main from './Main'
+import ErrorMessage from "./ErrorMessage";
+import LoadingIndicator from "./LoadingIndicator";
+import Header from "./Header";
+import Footer from "./Footer";
+import Main from "./Main";
 
 const App = () => (
-  <div className='app'>
+  <div className="app">
     <Header />
     <ErrorMessage />
     <LoadingIndicator />
     <Main />
-        <Footer />
+    <Footer />
   </div>
-)
+);
 
 // const App = () => (
 //   <div className='app'>
@@ -22,4 +22,4 @@ const App = () => (
 //   </div>
 // )
 
-export default App
+export default App;

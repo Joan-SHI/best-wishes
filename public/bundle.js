@@ -29055,8 +29055,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var App = function App() {
   return _react2.default.createElement(
-    'div',
-    { className: 'app' },
+    "div",
+    { className: "app" },
     _react2.default.createElement(_Header2.default, null),
     _react2.default.createElement(_ErrorMessage2.default, null),
     _react2.default.createElement(_LoadingIndicator2.default, null),
