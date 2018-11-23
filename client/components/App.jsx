@@ -27,7 +27,7 @@ class App extends React.Component {
           <div class="column2">
             <div class="createMessage">
               <form>
-                <p class="titleInteractivePanels">Create message</p>
+                <p class="titleInteractivePanels">Read message</p>
                 <p>
                   To: <input />
                 </p>
