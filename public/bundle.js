@@ -270,6 +270,220 @@ if (process.env.NODE_ENV === 'production') {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(40);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.showErrorActionCreator = exports.setMessageResultActionCreator = exports.setMessageActionCreator = exports.editMessageActionCreator = exports.viewMessageActionCreator = exports.receiveMessageActionCreator = exports.requestMessageActionCreator = exports.receiveMessagesActionCreator = exports.requestMessagesActionCreator = exports.SET_MESSAGE_RESULT = exports.SET_MESSAGE = exports.EDIT_MESSAGE = exports.VIEW_MESSAGE = exports.RECEIVE_MESSAGE = exports.REQUEST_MESSAGE = exports.RECEIVE_MESSAGES = exports.REQUEST_MESSAGES = exports.SHOW_ERROR = undefined;
+exports.fetchMessagesThunk = fetchMessagesThunk;
+exports.fetchMessageThunk = fetchMessageThunk;
+exports.setMessageThunk = setMessageThunk;
+
+var _superagent = __webpack_require__(55);
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SHOW_ERROR = exports.SHOW_ERROR = 'SHOW_ERROR';
+// get all messages
+var REQUEST_MESSAGES = exports.REQUEST_MESSAGES = 'REQUEST_MESSAGES';
+var RECEIVE_MESSAGES = exports.RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
+
+// get single message
+var REQUEST_MESSAGE = exports.REQUEST_MESSAGE = 'REQUEST_MESSAGE';
+var RECEIVE_MESSAGE = exports.RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
+
+// view a message (set current message)
+var VIEW_MESSAGE = exports.VIEW_MESSAGE = 'VIEW_MESSAGE';
+
+// edit a message (set current message to be in edit mode)
+var EDIT_MESSAGE = exports.EDIT_MESSAGE = 'EDIT_MESSAGE';
+
+// create new message or update existing message
+var SET_MESSAGE = exports.SET_MESSAGE = 'SET_MESSAGE';
+var SET_MESSAGE_RESULT = exports.SET_MESSAGE_RESULT = 'SET_MESSAGE_RESULT';
+
+// STANDARD_ACTIONS
+
+var requestMessagesActionCreator = exports.requestMessagesActionCreator = function requestMessagesActionCreator() {
+  return {
+    type: REQUEST_MESSAGES
+  };
+};
+
+var receiveMessagesActionCreator = exports.receiveMessagesActionCreator = function receiveMessagesActionCreator(messages) {
+  console.log("Creating RECEIVE_MESSAGES action, with messages: ", messages);
+  return {
+    type: RECEIVE_MESSAGES,
+    messages: messages
+  };
+};
+
+var requestMessageActionCreator = exports.requestMessageActionCreator = function requestMessageActionCreator() {
+  return {
+    type: REQUEST_MESSAGE
+  };
+};
+
+var receiveMessageActionCreator = exports.receiveMessageActionCreator = function receiveMessageActionCreator(message) {
+  return {
+    type: RECEIVE_MESSAGE,
+    message: message.data
+  };
+};
+
+var viewMessageActionCreator = exports.viewMessageActionCreator = function viewMessageActionCreator(message) {
+  console.log("view message action : message: ", message);
+  return {
+    type: VIEW_MESSAGE,
+    message: message
+  };
+};
+
+var editMessageActionCreator = exports.editMessageActionCreator = function editMessageActionCreator(message) {
+  return {
+    type: EDIT_MESSAGE,
+    message: message
+  };
+};
+
+var setMessageActionCreator = exports.setMessageActionCreator = function setMessageActionCreator(message) {
+  return {
+    type: SET_MESSAGE,
+    message: message
+  };
+};
+
+var setMessageResultActionCreator = exports.setMessageResultActionCreator = function setMessageResultActionCreator(result) {
+  return {
+    type: SET_MESSAGE_RESULT,
+    result: result
+  };
+};
+
+var showErrorActionCreator = exports.showErrorActionCreator = function showErrorActionCreator(errorMessage) {
+  // console.log("error??", errorMessage)
+  return {
+    type: SHOW_ERROR,
+    errorMessage: errorMessage
+  };
+};
+
+// Thunks!!
+
+function fetchMessagesThunk() {
+  return function (dispatch) {
+    console.log("Fetch messages thunk:");
+    dispatch(requestMessagesActionCreator()); // tells the waiting spinner to be true
+    return _superagent2.default.get('https://jsonplaceholder.typicode.com/posts').then(function (res) {
+      return res.body;
+    }).then(function (messages) {
+      console.log("Fetch messages thunk response body (messages): ", messages);
+      dispatch(receiveMessagesActionCreator(messages));
+    }).catch(function (err) {
+      console.log("error", err);
+      dispatch(showErrorActionCreator(err.message));
+    });
+  };
+}
+
+function fetchMessageThunk(id) {
+  return function (dispatch) {
+    dispatch(requestMessagesActionCreator()); // tells the waiting spinner to be true
+    return _superagent2.default // superagent api-client
+    // .get(`/api/v1/reddit/subreddit/${subreddit}`)
+    .get('https://jsonplaceholder.typicode.com/posts/id').then(function (res) {
+      return res.body;
+    })
+    // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+    .then(function (message) {
+      return dispatch(receiveMessageActionCreator(message));
+    }).catch(function (err) {
+      console.log("error getting message", err);
+      dispatch(showErrorActionCreator(err.message));
+    });
+  };
+}
+
+// for create, update and archive
+function setMessageThunk(message) {
+  console.log("setMessageThunk - message: ", message);
+  return function (dispatch) {
+    dispatch(setMessageActionCreator(message)); // tells the waiting spinner to be true // don't think need message to be sent
+    if (message.id) {
+      // update existing message with PUT  (for update and archive)
+      return _superagent2.default // superagent api-client
+      .put('https://jsonplaceholder.typicode.com/posts/' + message.id).send(message).then(function (res) {
+        return res.body;
+      })
+      // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+      .then(function (result) {
+        console.log("setMessage result from setMessage: ", result);
+        dispatch(setMessageResultActionCreator(result));
+      }).catch(function (err) {
+        console.log("error updating message ", message.id, ". Error: ", err);
+        dispatch(showErrorActionCreator(err.message));
+      });
+    } else {
+      // create new message with POST
+      return _superagent2.default // superagent api-client
+      .post('https://jsonplaceholder.typicode.com/posts/').send(message).then(function (res) {
+        return res.body;
+      })
+      // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+      .then(function (result) {
+        console.log("setMessage result from setMessage: ", result);
+        dispatch(setMessageResultActionCreator(result));
+      }).catch(function (err) {
+        console.log("error creating new message", err);
+        dispatch(showErrorActionCreator(err.message));
+      });
+    }
+  };
+}
+
+// TODO POST AND PUT thunks
+// export function setMessage(message) {
+//   return(dispatch) => {
+//     dispatch(setMessage(message)) // tells the waiting spinner to be true
+//     return request // superagent api-client
+//     // fake api doing a put or post and getting a result (success + new/updated message, or error)
+//       .get(`https://jsonplaceholder.typicode.com/posts`)
+//       .then(res => res.body)
+//       .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
+//       .then(message => dispatch(receiveMessage(message)))
+//       .catch(err => {
+//         console.log("error getting message", err)
+//         dispatch(showError(err.message))
+//       })
+//   }
+// }
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -364,218 +578,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(40);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.showErrorActionCreator = exports.setMessageResultActionCreator = exports.setMessageActionCreator = exports.editMessageActionCreator = exports.viewMessageActionCreator = exports.receiveMessageActionCreator = exports.requestMessageActionCreator = exports.receiveMessagesActionCreator = exports.requestMessagesActionCreator = exports.SET_MESSAGE_RESULT = exports.SET_MESSAGE = exports.EDIT_MESSAGE = exports.VIEW_MESSAGE = exports.RECEIVE_MESSAGE = exports.REQUEST_MESSAGE = exports.RECEIVE_MESSAGES = exports.REQUEST_MESSAGES = exports.SHOW_ERROR = undefined;
-exports.fetchMessagesThunk = fetchMessagesThunk;
-exports.fetchMessageThunk = fetchMessageThunk;
-exports.setMessageThunk = setMessageThunk;
-
-var _superagent = __webpack_require__(55);
-
-var _superagent2 = _interopRequireDefault(_superagent);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SHOW_ERROR = exports.SHOW_ERROR = 'SHOW_ERROR';
-// get all messages
-var REQUEST_MESSAGES = exports.REQUEST_MESSAGES = 'REQUEST_MESSAGES';
-var RECEIVE_MESSAGES = exports.RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
-
-// get single message
-var REQUEST_MESSAGE = exports.REQUEST_MESSAGE = 'REQUEST_MESSAGE';
-var RECEIVE_MESSAGE = exports.RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
-
-// view a message (set current message)
-var VIEW_MESSAGE = exports.VIEW_MESSAGE = 'VIEW_MESSAGE';
-
-// edit a message (set current message to be in edit mode)
-var EDIT_MESSAGE = exports.EDIT_MESSAGE = 'EDIT_MESSAGE';
-
-// create new message or update existing message
-var SET_MESSAGE = exports.SET_MESSAGE = 'SET_MESSAGE';
-var SET_MESSAGE_RESULT = exports.SET_MESSAGE_RESULT = 'SET_MESSAGE_RESULT';
-
-// STANDARD_ACTIONS
-
-var requestMessagesActionCreator = exports.requestMessagesActionCreator = function requestMessagesActionCreator() {
-  return {
-    type: REQUEST_MESSAGES
-  };
-};
-
-var receiveMessagesActionCreator = exports.receiveMessagesActionCreator = function receiveMessagesActionCreator(messages) {
-  console.log("Creating RECEIVE_MESSAGES action, with messages: ", messages);
-  return {
-    type: RECEIVE_MESSAGES,
-    messages: messages
-  };
-};
-
-var requestMessageActionCreator = exports.requestMessageActionCreator = function requestMessageActionCreator() {
-  return {
-    type: REQUEST_MESSAGE
-  };
-};
-
-var receiveMessageActionCreator = exports.receiveMessageActionCreator = function receiveMessageActionCreator(message) {
-  return {
-    type: RECEIVE_MESSAGE,
-    message: message.data
-  };
-};
-
-var viewMessageActionCreator = exports.viewMessageActionCreator = function viewMessageActionCreator(message) {
-  return {
-    type: VIEW_MESSAGE,
-    message: message
-  };
-};
-
-var editMessageActionCreator = exports.editMessageActionCreator = function editMessageActionCreator(message) {
-  return {
-    type: EDIT_MESSAGE,
-    message: message
-  };
-};
-
-var setMessageActionCreator = exports.setMessageActionCreator = function setMessageActionCreator(message) {
-  return {
-    type: SET_MESSAGE,
-    message: message
-  };
-};
-
-var setMessageResultActionCreator = exports.setMessageResultActionCreator = function setMessageResultActionCreator(result) {
-  return {
-    type: SET_MESSAGE_RESULT,
-    result: result
-  };
-};
-
-var showErrorActionCreator = exports.showErrorActionCreator = function showErrorActionCreator(errorMessage) {
-  // console.log("error??", errorMessage)
-  return {
-    type: SHOW_ERROR,
-    errorMessage: errorMessage
-  };
-};
-
-// Thunks!!
-
-function fetchMessagesThunk() {
-  return function (dispatch) {
-    console.log("Fetch messages thunk:");
-    dispatch(requestMessagesActionCreator()); // tells the waiting spinner to be true
-    return _superagent2.default.get('https://jsonplaceholder.typicode.com/posts').then(function (res) {
-      return res.body;
-    }).then(function (messages) {
-      console.log("Fetch messages thunk response body (messages): ", messages);
-      dispatch(receiveMessagesActionCreator(messages));
-    }).catch(function (err) {
-      console.log("error", err);
-      dispatch(showErrorActionCreator(err.message));
-    });
-  };
-}
-
-function fetchMessageThunk(id) {
-  return function (dispatch) {
-    dispatch(requestMessagesActionCreator()); // tells the waiting spinner to be true
-    return _superagent2.default // superagent api-client
-    // .get(`/api/v1/reddit/subreddit/${subreddit}`)
-    .get('https://jsonplaceholder.typicode.com/posts/id').then(function (res) {
-      return res.body;
-    })
-    // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
-    .then(function (message) {
-      return dispatch(receiveMessageActionCreator(message));
-    }).catch(function (err) {
-      console.log("error getting message", err);
-      dispatch(showErrorActionCreator(err.message));
-    });
-  };
-}
-
-// for create, update and archive
-function setMessageThunk(message) {
-  return function (dispatch) {
-    dispatch(setMessageActionCreator(message)); // tells the waiting spinner to be true // don't think need message to be sent
-    if (message.id) {
-      // update existing message with PUT  (for update and archive)
-      return _superagent2.default // superagent api-client
-      .put('https://jsonplaceholder.typicode.com/posts/' + message.id).send(movie).then(function (res) {
-        return res.body;
-      })
-      // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
-      .then(function (result) {
-        console.log("setMessage result from setMessage: ", result);
-        dispatch(setMessageResultActionCreator(result));
-      }).catch(function (err) {
-        console.log("error updating message ", message.id, ". Error: ", err);
-        dispatch(showErrorActionCreator(err.message));
-      });
-    } else {
-      // create new message with POST
-      return _superagent2.default // superagent api-client
-      .post('https://jsonplaceholder.typicode.com/posts/').send(movie).then(function (res) {
-        return res.body;
-      })
-      // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
-      .then(function (result) {
-        console.log("setMessage result from setMessage: ", result);
-        dispatch(setMessageResultActionCreator(result));
-      }).catch(function (err) {
-        console.log("error creating new message", err);
-        dispatch(showErrorActionCreator(err.message));
-      });
-    }
-  };
-}
-
-// TODO POST AND PUT thunks
-// export function setMessage(message) {
-//   return(dispatch) => {
-//     dispatch(setMessage(message)) // tells the waiting spinner to be true
-//     return request // superagent api-client
-//     // fake api doing a put or post and getting a result (success + new/updated message, or error)
-//       .get(`https://jsonplaceholder.typicode.com/posts`)
-//       .then(res => res.body)
-//       .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
-//       .then(message => dispatch(receiveMessage(message)))
-//       .catch(err => {
-//         console.log("error getting message", err)
-//         dispatch(showError(err.message))
-//       })
-//   }
-// }
 
 /***/ }),
 /* 5 */
@@ -1963,7 +1965,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(23);
 
-var _reactRedux = __webpack_require__(3);
+var _reactRedux = __webpack_require__(2);
 
 var _redux = __webpack_require__(10);
 
@@ -2010,7 +2012,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * LICENSE file in the root directory of this source tree.
  */
 
-var k=__webpack_require__(2),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.concurrent_mode"):60111,y=n?Symbol.for("react.forward_ref"):60112,z=n?Symbol.for("react.suspense"):60113,A=n?Symbol.for("react.memo"):
+var k=__webpack_require__(4),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.concurrent_mode"):60111,y=n?Symbol.for("react.forward_ref"):60112,z=n?Symbol.for("react.suspense"):60113,A=n?Symbol.for("react.memo"):
 60115,B=n?Symbol.for("react.lazy"):60116,C="function"===typeof Symbol&&Symbol.iterator;function aa(a,b,e,c,d,g,h,f){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var l=[e,c,d,g,h,f],m=0;a=Error(b.replace(/%s/g,function(){return l[m++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
 function D(a){for(var b=arguments.length-1,e="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=0;c<b;c++)e+="&args[]="+encodeURIComponent(arguments[c+1]);aa(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",e)}var E={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},F={};
 function G(a,b,e){this.props=a;this.context=b;this.refs=F;this.updater=e||E}G.prototype.isReactComponent={};G.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?D("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};G.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function H(){}H.prototype=G.prototype;function I(a,b,e){this.props=a;this.context=b;this.refs=F;this.updater=e||E}var J=I.prototype=new H;
@@ -2049,7 +2051,7 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(2);
+var _assign = __webpack_require__(4);
 var checkPropTypes = __webpack_require__(5);
 
 // TODO: this is special because it gets imported during build.
@@ -3938,7 +3940,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(1),n=__webpack_require__(2),ba=__webpack_require__(11);function ca(a,b,c,d,e,f,g,h){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var k=[c,d,e,f,g,h],l=0;a=Error(b.replace(/%s/g,function(){return k[l++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
+var aa=__webpack_require__(1),n=__webpack_require__(4),ba=__webpack_require__(11);function ca(a,b,c,d,e,f,g,h){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var k=[c,d,e,f,g,h],l=0;a=Error(b.replace(/%s/g,function(){return k[l++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
 function t(a){for(var b=arguments.length-1,c="https://reactjs.org/docs/error-decoder.html?invariant="+a,d=0;d<b;d++)c+="&args[]="+encodeURIComponent(arguments[d+1]);ca(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",c)}aa?void 0:t("227");function da(a,b,c,d,e,f,g,h,k){var l=Array.prototype.slice.call(arguments,3);try{b.apply(c,l)}catch(m){this.onError(m)}}
 var ea=!1,fa=null,ha=!1,ia=null,ja={onError:function(a){ea=!0;fa=a}};function ka(a,b,c,d,e,f,g,h,k){ea=!1;fa=null;da.apply(ja,arguments)}function la(a,b,c,d,e,f,g,h,k){ka.apply(this,arguments);if(ea){if(ea){var l=fa;ea=!1;fa=null}else t("198"),l=void 0;ha||(ha=!0,ia=l)}}var ma=null,na={};
 function oa(){if(ma)for(var a in na){var b=na[a],c=ma.indexOf(a);-1<c?void 0:t("96",a);if(!pa[c]){b.extractEvents?void 0:t("97",a);pa[c]=b;c=b.eventTypes;for(var d in c){var e=void 0;var f=c[d],g=b,h=d;qa.hasOwnProperty(h)?t("99",h):void 0;qa[h]=f;var k=f.phasedRegistrationNames;if(k){for(e in k)k.hasOwnProperty(e)&&ra(k[e],g,h);e=!0}else f.registrationName?(ra(f.registrationName,g,h),e=!0):e=!1;e?void 0:t("98",d,a)}}}}
@@ -4875,7 +4877,7 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(1);
-var _assign = __webpack_require__(2);
+var _assign = __webpack_require__(4);
 var checkPropTypes = __webpack_require__(5);
 var scheduler = __webpack_require__(11);
 var tracing = __webpack_require__(28);
@@ -25145,7 +25147,7 @@ function createProvider(storeKey) {
 
 
 
-var assign = __webpack_require__(2);
+var assign = __webpack_require__(4);
 
 var ReactPropTypesSecret = __webpack_require__(6);
 var checkPropTypes = __webpack_require__(5);
@@ -26817,7 +26819,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = (0, _redux.combineReducers)({
   errorMessage: _errorMessage2.default,
   messages: _messages2.default,
-  currentMessageReducer: _currentMessage2.default,
+  currentMessage: _currentMessage2.default,
   loadingReducer: _loading2.default
 });
 
@@ -26832,7 +26834,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(4);
+var _actions = __webpack_require__(3);
 
 function errorMessageReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -28899,7 +28901,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(4);
+var _actions = __webpack_require__(3);
 
 function messagesReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -28939,18 +28941,18 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _actions = __webpack_require__(4);
+var _actions = __webpack_require__(3);
 
 function currentMessageReducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var action = arguments[1];
 
     console.log("currentMessageReduceder action ", action);
     if (action) {
         switch (action.type) {
             case _actions.VIEW_MESSAGE:
-                console.log("Viewing message: state to be action.message", action.message);
-                return action.message; // all messages put into state
+                console.log("Current Message reducer: VIEW_MESSAGE: state to be action.message", action.message);
+                return action.message; // this message put into state. currentMessage
             case _actions.EDIT_MESSAGE:
                 console.log("Edit Message: TODO set current message to be in edit mode ", action.message);
                 return state; // need to replace the specific message (if existing) or insert if new
@@ -28968,7 +28970,7 @@ function currentMessageReducer() {
     }
 }
 
-exports.default = currentMessageReducer();
+exports.default = currentMessageReducer;
 
 /***/ }),
 /* 63 */
@@ -28981,7 +28983,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(4);
+var _actions = __webpack_require__(3);
 
 var loadingReducer = function loadingReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -29088,7 +29090,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(3);
+var _reactRedux = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29123,7 +29125,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(3);
+var _reactRedux = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29234,8 +29236,8 @@ var Main = function Main(props) {
   return _react2.default.createElement(
     _react2.default.Fragment,
     null,
-    _react2.default.createElement(_MessageBoard2.default, null),
-    true && _react2.default.createElement(_Message2.default, null)
+    _react2.default.createElement(_Message2.default, null),
+    _react2.default.createElement(_MessageBoard2.default, null)
   );
 };
 
@@ -29260,9 +29262,9 @@ var _MiniMessage = __webpack_require__(71);
 
 var _MiniMessage2 = _interopRequireDefault(_MiniMessage);
 
-var _reactRedux = __webpack_require__(3);
+var _reactRedux = __webpack_require__(2);
 
-var _actions = __webpack_require__(4);
+var _actions = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29285,7 +29287,7 @@ var MessageBoard = function MessageBoard(props) {
       'Fetch Messages'
     ),
     messages.map(function (message, i) {
-      console.log("Message board map loop: i, message: ", i, message);
+      // console.log("Message board map loop: i, message: ", i, message)
       return _react2.default.createElement(_MiniMessage2.default, { key: i, index: i, message: message });
     })
   );
@@ -29314,13 +29316,19 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _actions = __webpack_require__(3);
+
+var _reactRedux = __webpack_require__(2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MiniMessage = function MiniMessage(props) {
   var message = props.message;
   return _react2.default.createElement(
-    _react2.default.Fragment,
-    null,
+    'div',
+    { id: 'message-' + message.id, onClick: function onClick() {
+        return props.dispatch((0, _actions.viewMessageActionCreator)(message));
+      } },
     _react2.default.createElement(
       'h4',
       null,
@@ -29330,13 +29338,19 @@ var MiniMessage = function MiniMessage(props) {
       'p',
       null,
       'To: ',
-      message.to,
+      message.to || "No To!!",
       '  '
+    ),
+    _react2.default.createElement(
+      'p',
+      null,
+      'Message: ',
+      message.title
     )
   );
 };
 
-exports.default = MiniMessage;
+exports.default = (0, _reactRedux.connect)()(MiniMessage);
 
 /***/ }),
 /* 72 */
@@ -29355,7 +29369,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(3);
+var _reactRedux = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29386,51 +29400,57 @@ var Message = function (_React$Component) {
     value: function render() {
       // depending on state, return the standard view (with like and delete and edit button) or edit/create view
       var message = this.props.currentMessage || this.state.currentMessage;
-      if (this.state.editMode) {
-        return _react2.default.createElement(
-          _react2.default.Fragment,
-          null,
-          _react2.default.createElement(
-            'div',
+      console.log("Message component: current message? ", message);
+
+      if (this.props.currentMessage) {
+        if (this.state.editMode) {
+          return _react2.default.createElement(
+            _react2.default.Fragment,
             null,
-            message
-          )
-        );
+            _react2.default.createElement(
+              'div',
+              null,
+              message
+            )
+          );
+        } else {
+          return _react2.default.createElement(
+            _react2.default.Fragment,
+            null,
+            _react2.default.createElement(
+              'h3',
+              null,
+              'I\'m a message view'
+            ),
+            _react2.default.createElement(
+              'h3',
+              null,
+              'To: ',
+              message && message.to || "No to"
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              'MESSAGE: ',
+              message && message.message || "no message",
+              ' '
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              'Likes: ',
+              message && message.like_count || "no like count",
+              ' '
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              'EDIT | ARCHIVE | LIKE'
+            )
+          );
+        }
       } else {
-        return _react2.default.createElement(
-          _react2.default.Fragment,
-          null,
-          _react2.default.createElement(
-            'h3',
-            null,
-            'I\'m a message view'
-          ),
-          _react2.default.createElement(
-            'h3',
-            null,
-            'To: ',
-            message && message.to || "No to"
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'MESSAGE: ',
-            message && message.message || "no message",
-            ' '
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Likes: ',
-            message && message.like_count || "no like count",
-            ' '
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'EDIT | ARCHIVE | LIKE'
-          )
-        );
+        return _react2.default.createElement(_react2.default.Fragment, null);
       }
     }
   }]);

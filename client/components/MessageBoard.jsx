@@ -3,6 +3,7 @@ import MiniMessage from './MiniMessage'
 import { connect } from 'react-redux'
 import { fetchMessagesThunk } from '../actions'
 
+
 const MessageBoard = (props) => {
   const messages = props.messages || [{ id: 0, to: "mrs claus" }, { id: 1, to: "Joan", message: "thanks for coffee, lunch" }]
 
@@ -15,7 +16,7 @@ const MessageBoard = (props) => {
     </button>
 
       {messages.map((message, i) => {
-        console.log("Message board map loop: i, message: ", i, message)
+        // console.log("Message board map loop: i, message: ", i, message)
         return (<MiniMessage key={i} index={i} message={message} />)
       })
 

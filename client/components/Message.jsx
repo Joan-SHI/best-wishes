@@ -17,24 +17,31 @@ class Message extends React.Component {
   render() {
     // depending on state, return the standard view (with like and delete and edit button) or edit/create view
     const message = this.props.currentMessage || this.state.currentMessage
-    if (this.state.editMode) {
-      return (
-        <React.Fragment>
-          <div>{message}</div>
-        </React.Fragment>
-      )
+    console.log("Message component: current message? ", message)
+
+    if (this.props.currentMessage) {
+      if (this.state.editMode) {
+        return (
+          <React.Fragment>
+            <div>{message}</div>
+          </React.Fragment>
+        )
+      }
+      else {
+        return (
+          <React.Fragment>
+            <h3>I'm a message view</h3>
+            <h3>To: {message && message.to || "No to"}</h3>
+            <p>MESSAGE: {message && message.message || "no message"} </p>
+            <p>Likes: {message && message.like_count || "no like count"} </p>
+            <p>EDIT | ARCHIVE | LIKE</p>
+          </React.Fragment>
+        )
+      }
+    } else {
+      return <React.Fragment />
     }
-    else {
-      return (
-        <React.Fragment>
-          <h3>I'm a message view</h3>
-          <h3>To: {message && message.to || "No to"}</h3>
-          <p>MESSAGE: {message && message.message || "no message"} </p>
-          <p>Likes: {message && message.like_count || "no like count"} </p>
-          <p>EDIT | ARCHIVE | LIKE</p>
-        </React.Fragment>
-      )
-    }
+
   }
 }
 

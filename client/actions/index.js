@@ -50,6 +50,7 @@ export const receiveMessageActionCreator = (message) => {
 }
 
 export const viewMessageActionCreator = (message) => {
+  console.log("view message action : message: ", message)
   return {
     type: VIEW_MESSAGE,
     message: message
@@ -126,13 +127,14 @@ export function fetchMessageThunk(id) {
 
 // for create, update and archive
 export function setMessageThunk(message) {
+  console.log("setMessageThunk - message: ", message)
   return (dispatch) => {
     dispatch(setMessageActionCreator(message)) // tells the waiting spinner to be true // don't think need message to be sent
     if (message.id) {
       // update existing message with PUT  (for update and archive)
       return request // superagent api-client
         .put(`https://jsonplaceholder.typicode.com/posts/${message.id}`)
-        .send(movie)
+        .send(message)
         .then(res => res.body)
         // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
         .then(result => {
@@ -147,7 +149,7 @@ export function setMessageThunk(message) {
       // create new message with POST
       return request // superagent api-client
         .post(`https://jsonplaceholder.typicode.com/posts/`)
-        .send(movie)
+        .send(message)
         .then(res => res.body)
         // .then(messages => messages.find(message => message.id == id)) // this to fake api getting single message
         .then(result => {

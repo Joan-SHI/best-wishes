@@ -1,14 +1,17 @@
 import React from 'react'
+import { viewMessageActionCreator } from '../actions'
+import { connect } from 'react-redux'
 
 const MiniMessage = (props) => {
   const message = props.message
   return (
-    <React.Fragment>
+    <div id={`message-${message.id}`} onClick={() => props.dispatch(viewMessageActionCreator(message))} >
       <h4>I'm a mini message</h4>
-      <p>To: {message.to}  </p>
-    </React.Fragment >
+      <p>To: {message.to || "No To!!"}  </p>
+      <p>Message: {message.title}</p>
+    </div>
   )
 }
 
 
-export default MiniMessage
+export default connect()(MiniMessage)

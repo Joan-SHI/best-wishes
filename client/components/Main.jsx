@@ -3,16 +3,13 @@ import MessageBoard from './MessageBoard'
 import Message from './Message'
 
 const Main = (props) => {
-  return(
+  return (
     <React.Fragment>
+      <Message />
       <MessageBoard />
-    {
-    true && <Message /> 
-      
-    }
-      
-          
-  </React.Fragment>
+
+
+    </React.Fragment>
   )
 }
 
